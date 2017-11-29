@@ -7,7 +7,7 @@ A friendly kotlin library used to validate API endpoints against a Swagger 2.0 s
 
 ### Validate
 
-```
+```kotlin
 Validate.request(req) {
 	  ok().body(Mono.just(listOf("carmine", "alex", "eliana")))
 }
@@ -15,7 +15,7 @@ Validate.request(req) {
 
 #### with body
 
-```
+```kotlin
 Validate.request(req).withBody(User::class.java) { 
 	body -> ok().body(Mono.just(body)) // body is deserialized as User
 }
