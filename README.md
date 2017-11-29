@@ -46,7 +46,7 @@ class Routes(private val userHandler: UserHandler) {
 ```
 
 #### validate handler functions
-```
+```kotlin
 class UserHandler {
 	
 	fun create(req: ServerRequest): Mono<ServerResponse> {
