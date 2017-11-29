@@ -9,7 +9,7 @@ A friendly kotlin library used to validate API endpoints against a Swagger 2.0 s
 
 ```kotlin
 Validate.request(req) {
-	  ok().body(Mono.just(listOf("carmine", "alex", "eliana")))
+    ok().body(Mono.just(listOf("carmine", "alex", "eliana")))
 }
 ```
 
