@@ -49,7 +49,7 @@ class Routes(private val userHandler: UserHandler) {
 ```kotlin
 class UserHandler {
 	
-	fun create(req: ServerRequest): Mono<ServerResponse> {
+	fun findAll(req: ServerRequest): Mono<ServerResponse> {
 		return Validate.request(req) {
 			ok().body(Mono.just(listOf("carmine", "alex", "eliana")))
 		}
