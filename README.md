@@ -25,10 +25,12 @@ For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetai
 ## Usage
 
 ```kotlin
-import io.github.cdimascio.swagger.*
+import io.github.cdimascio.swagger.Validate
 ```
 
 ### Validate
+
+#### Kotlin
 
 ```kotlin
 Validate.request(req) {
@@ -36,12 +38,30 @@ Validate.request(req) {
 }
 ```
 
+### Java 8
+```java
+ArrayList<String> users = new ArrayList<String>() {{
+    add("carmine");
+    add("alex");
+    add("eliana");
+}};
+Validate.INSTANCE.request(req, () -> ServerResponse.ok().body(fromObject(users));
+```
+
 #### with body
+
+#### Kotlin
 
 ```kotlin
 Validate.request(req).withBody(User::class.java) { 
 	body -> ok().body(Mono.just(body)) // body is deserialized as User
 }
+```
+
+### Java 8
+
+```java
+Validate.INSTANCE.request(null).withBody(User.class, user -> ServerResponse.ok().body(fromObject(user)));
 ```
 
 
