@@ -20,7 +20,7 @@ A friendly kotlin library used to validate spring functional API endpoints again
 compile 'io.github.cdimascio:swagger-spring-functional:0.6.2'
 ```
 
-For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Cswagger-spring-functional%7C0.6.1%7Cjar)
+For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Cswagger-spring-functional%7C0.6.2%7Cjar)
 
 ## Usage
 
