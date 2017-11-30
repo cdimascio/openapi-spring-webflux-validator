@@ -29,16 +29,18 @@ For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetai
 
 ## Usage
 
+### Validate a request
+
 ```kotlin
 import io.github.cdimascio.swagger.Validate
 ```
 
-### Validate a request
-
 #### Kotlin
 
+without a body
 ```kotlin
 Validate.request(req) {
+    // Do stuff e.g. return a list of names 
     ok().body(Mono.just(listOf("carmine", "alex", "eliana")))
 }
 ```
@@ -46,35 +48,55 @@ Validate.request(req) {
 with body
 
 ```kotlin
-Validate.request(req).withBody(User::class.java) { 
-	body -> ok().body(Mono.just(body)) // body is deserialized as User
+Validate.request(req).withBody(User::class.java) { body ->
+    // Note that body is deserialized as User!
+    // Now you can do stuff. 
+    // For example, lets echo the request as the response 
+    ok().body(Mono.just(body))
 }
 ```
 
 #### Java 8
+
+```kotlin
+import io.github.cdimascio.swagger.Validate;
+```
+
+without a body
 ```java
 ArrayList<String> users = new ArrayList<String>() {{
     add("carmine");
     add("alex");
     add("eliana");
 }};
-Validate.INSTANCE.request(req, () -> ServerResponse.ok().body(fromObject(users));
+
+Validate.INSTANCE.request(null, () -> {
+    // Do stuff e.g. return a list of user names
+    ServerResponse.ok().body(fromObject(users));
+});
 ```
 
 with body
 ```java
 Validate.INSTANCE
     .request(null)
-    .withBody(User.class, user -> ServerResponse.ok().body(fromObject(user)));
+    .withBody(User.class, user -> 
+        // Note that body is deserialized as User!
+        // Now you can do stuff. 
+        // For example, lets echo the request as the response
+        ServerResponse.ok().body(fromObject(user))
+    );
 ```
 
 
 ## Example
 
 
-Let's say you function to create `/users`
+Let's say you have an endpoint `/users` that supports both `GET` and `POST` operations.
 
-#### Set up routes:
+You can create those routes and validate them like so:
+
+#### Create the routes:
 
 ```kotlin
 class Routes(private val userHandler: UserHandler) {
@@ -92,7 +114,7 @@ class Routes(private val userHandler: UserHandler) {
 }
 ```
 
-#### validate handler functions
+#### Validate with swagger-functional-webflux
 ```kotlin
 class UserHandler {
 	
