@@ -5,7 +5,7 @@ It works happily with any JVM language including Java 8.
 
 ## Prequisites
 
-Java 8
+Java 8 runtime
 
 ## Install
 
@@ -33,7 +33,7 @@ For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetai
 import io.github.cdimascio.swagger.Validate
 ```
 
-### Validate
+### Validate a request
 
 #### Kotlin
 
@@ -43,7 +43,15 @@ Validate.request(req) {
 }
 ```
 
-### Java 8
+with body
+
+```kotlin
+Validate.request(req).withBody(User::class.java) { 
+	body -> ok().body(Mono.just(body)) // body is deserialized as User
+}
+```
+
+#### Java 8
 ```java
 ArrayList<String> users = new ArrayList<String>() {{
     add("carmine");
@@ -53,20 +61,11 @@ ArrayList<String> users = new ArrayList<String>() {{
 Validate.INSTANCE.request(req, () -> ServerResponse.ok().body(fromObject(users));
 ```
 
-#### with body
-
-#### Kotlin
-
-```kotlin
-Validate.request(req).withBody(User::class.java) { 
-	body -> ok().body(Mono.just(body)) // body is deserialized as User
-}
-```
-
-### Java 8
-
+with body
 ```java
-Validate.INSTANCE.request(null).withBody(User.class, user -> ServerResponse.ok().body(fromObject(user)));
+Validate.INSTANCE
+    .request(null)
+    .withBody(User.class, user -> ServerResponse.ok().body(fromObject(user)));
 ```
 
 
