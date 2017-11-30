@@ -1,6 +1,10 @@
-# swagger-funtional-webflux
+# swagger-functional-webflux
 
-A friendly kotlin library used to validate API endpoints against a Swagger 2.0 specification
+A friendly kotlin library used to validate spring functional API endpoints against a Swagger 2.0 specification. Great with webflux functional.
+
+## Install
+
+coming soon...
 
 ## Usage
 
@@ -64,8 +68,9 @@ class UserHandler {
 }
 ```
 
-### License
-Apache 2.0
+## License
+
+[Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
 
 
