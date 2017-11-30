@@ -1,7 +1,6 @@
-package functional.swagger.validators
+package io.github.cdimascio.swagger
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import io.github.cdimascio.swagger.Validator
 import org.springframework.web.reactive.function.BodyExtractors
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
