@@ -10,7 +10,7 @@
 
     <groupId>io.github.cdimascio</groupId>
     <artifactId>swagger-spring-functional</artifactId>
-    <version>0.6.0</version>
+    <version>0.6.1</version>
 
     <licenses>
         <license>
