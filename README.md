@@ -84,7 +84,7 @@ Validate.INSTANCE
         // Note that body is deserialized as User!
         // Now you can do stuff. 
         // For example, lets echo the request as the response
-        ServerResponse.ok().body(fromObject(user))
+        return ServerResponse.ok().body(fromObject(user))
     );
 ```
 
