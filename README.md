@@ -1,7 +1,10 @@
 # swagger-functional-webflux
 
 A friendly kotlin library used to validate spring functional API endpoints against a Swagger 2.0 specification. Great with webflux functional.
-It works happily with any JVM language including Java 8. 
+It **works happily with any JVM language including Java 8**. 
+
+![](https://raw.githubusercontent.com/cdimascio/swagger-spring-functional/master/assets/swagger.png)
+![](https://raw.githubusercontent.com/cdimascio/swagger-spring-functional/master/assets/spring5.png)
 
 ## Prequisites
 
@@ -119,6 +122,7 @@ Validate<ValidationError> validate = Validate.configure("static/api.json", messa
 Using the `validate` instance created above, you can now validate a request:
 
 without a body
+
 ```java
 ArrayList<String> users = new ArrayList<String>() {{
     add("carmine");
@@ -133,6 +137,7 @@ validate.request(null, () -> {
 ```
 
 with body
+
 ```java
 validate
     .request(null)
@@ -144,6 +149,39 @@ validate
     );
 ```
 
+## Example Valiation Output
+
+Let's assume a `POST` request to create a user requires the following request body:
+
+```json
+{
+  "firstname": "carmine",
+  "lastname": "dimasico"
+}
+```
+
+Let's now assume an API user misspells `lastname` as `lastnam`
+
+```shell
+curl -X POST http://localhost:8080/api/users -H "Content-Type: application/json" -d'{ 
+  "firstname": "c", 
+  "lastnam": "d" 
+}'
+```
+
+`swagger-functional-webflux` automatically validates the request against a Swagger spect and returns:
+
+```json
+{
+  "code" 400,
+  "messages":[
+	  "Object instance has properties which are not allowed by the schema: [\"lastnam\"]",
+	  "Object has missing required properties ([\"lastname\"])"
+  ]
+} 
+```
+
+Cool!! :-D 
 
 ## Example
 
