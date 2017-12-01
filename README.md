@@ -15,31 +15,48 @@ Java 8 runtime
 <dependency>
     <groupId>io.github.cdimascio</groupId>
     <artifactId>swagger-spring-functional</artifactId>
-    <version>0.6.2</version>
+    <version>0.7.1</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```
-compile 'io.github.cdimascio:swagger-spring-functional:0.6.2'
+compile 'io.github.cdimascio:swagger-spring-functional:0.7.1'
 ```
 
-For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Cswagger-spring-functional%7C0.6.2%7Cjar)
+For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Cswagger-spring-functional%7C0.7.1%7Cjar)
 
-## Usage
+## Usage (Kotlin)
 
-### Validate a request
+The following sections describe usage. The first section shows using with Kotlin. The second section show usage with Java 8.
+
+### Configure
+
+One time configuration, must specify the location of the swagger specification and may optionally provide a custom error handler/
 
 ```kotlin
 import io.github.cdimascio.swagger.Validate
+val validate = Validate.configure("static/api.json")
 ```
 
-#### Kotlin
+with custom error handler
+
+```kotlin
+data class MyError(val id: String, val messages: List<String>)
+val validate = Validate.configure("static/api.json") { messages ->
+   Error("my_error_handler", messages)
+}
+```
+
+### Validate a request
+
+Using the `validate` instance created above, you can now validate a request:
 
 without a body
+
 ```kotlin
-Validate.request(req) {
+validate.request(req) {
     // Do stuff e.g. return a list of names 
     ok().body(Mono.just(listOf("carmine", "alex", "eliana")))
 }
@@ -48,7 +65,7 @@ Validate.request(req) {
 with body
 
 ```kotlin
-Validate.request(req).withBody(User::class.java) { body ->
+validate.request(req).withBody(User::class.java) { body ->
     // Note that body is deserialized as User!
     // Now you can do stuff. 
     // For example, lets echo the request as the response 
@@ -58,9 +75,48 @@ Validate.request(req).withBody(User::class.java) { body ->
 
 #### Java 8
 
-```kotlin
+### Configure
+One time configuration, must specify the location of the swagger specification and may optionally provide a custom error handler/
+
+```java
 import io.github.cdimascio.swagger.Validate;
+Validate<ValidationError> validate = Validate.configure("static/api.json")
 ```
+
+with custom error handler
+
+```java
+class MyError {
+    private String id;
+    private  String messages;
+    public MyError(String id, List<String> messages) {
+        this.id = id;
+        this.messages = messages;
+    }
+    public getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public getMessages() {
+        return messages;
+    }
+    public void setMessages(List<String> messages) {
+        this.messages = messages;
+    }     
+}
+```
+
+```java
+Validate<ValidationError> validate = Validate.configure("static/api.json", messages ->
+    new MyError("my_error_handler", messages)
+);
+```
+
+### Validate a request
+
+Using the `validate` instance created above, you can now validate a request:
 
 without a body
 ```java
@@ -70,7 +126,7 @@ ArrayList<String> users = new ArrayList<String>() {{
     add("eliana");
 }};
 
-Validate.INSTANCE.request(null, () -> {
+validate.request(null, () -> {
     // Do stuff e.g. return a list of user names
     ServerResponse.ok().body(fromObject(users));
 });
@@ -78,7 +134,7 @@ Validate.INSTANCE.request(null, () -> {
 
 with body
 ```java
-Validate.INSTANCE
+validate
     .request(null)
     .withBody(User.class, user -> 
         // Note that body is deserialized as User!
