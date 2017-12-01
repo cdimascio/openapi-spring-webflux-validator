@@ -73,7 +73,7 @@ validate.request(req).withBody(User::class.java) { body ->
 }
 ```
 
-#### Java 8
+## Usages (Java 8)
 
 ### Configure
 One time configuration, must specify the location of the swagger specification and may optionally provide a custom error handler/
