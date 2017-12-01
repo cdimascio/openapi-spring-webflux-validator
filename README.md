@@ -155,6 +155,14 @@ You can create those routes and validate them like so:
 #### Create the routes:
 
 ```kotlin
+package myproject.controllers
+
+import org.springframework.core.io.ClassPathResource
+import org.springframework.http.MediaType.*
+import org.springframework.web.reactive.function.server.ServerResponse.permanentRedirect
+import org.springframework.web.reactive.function.server.router
+import java.net.URI
+
 class Routes(private val userHandler: UserHandler) {
 	fun router() = router {
         "/api".nest {
@@ -170,18 +178,36 @@ class Routes(private val userHandler: UserHandler) {
 }
 ```
 
+```kotlin
+package myproject
+
+import io.github.cdimascio.swagger.Validate
+val validate = Validate.configure("static/api.json")
+```
+
 #### Validate with swagger-functional-webflux
 ```kotlin
+package myproject.controllers
+
+import myproject.models.User
+import myproject.validate
+import org.springframework.web.reactive.function.server.ServerRequest
+import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.ServerResponse.ok
+import org.springframework.web.reactive.function.server.body
+import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
+
 class UserHandler {
 	
 	fun findAll(req: ServerRequest): Mono<ServerResponse> {
-		return Validate.request(req) {
+		return validate.request(req) {
 			ok().body(Mono.just(listOf("carmine", "alex", "eliana")))
 		}
 	}
 	 
 	fun create(req: ServerRequest): Mono<ServerResponse> {
-	   return Validate.request(req).withBody(User::class.java) {
+	   return validate.request(req).withBody(User::class.java) {
 	   		// it is the request body deserialized as User
 			ok().body(Mono.just(it))
 		}
