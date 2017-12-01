@@ -173,7 +173,7 @@ curl -X POST http://localhost:8080/api/users -H "Content-Type: application/json"
 
 ```json
 {
-  "code" 400,
+  "code": 400,
   "messages":[
 	  "Object instance has properties which are not allowed by the schema: [\"lastnam\"]",
 	  "Object has missing required properties ([\"lastname\"])"
@@ -181,7 +181,7 @@ curl -X POST http://localhost:8080/api/users -H "Content-Type: application/json"
 } 
 ```
 
-Cool!! :-D 
+**Woah! Cool!!** :-D 
 
 ## Example
 
