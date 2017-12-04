@@ -1,6 +1,6 @@
 # swagger-functional-webflux
 
-A friendly kotlin library used to validate spring functional API endpoints against a Swagger 2.0 specification. Great with webflux functional.
+A friendly kotlin library used to validate spring functional API endpoints against a Swagger 2.0 specification. Great with webflux functional. 
 It **works happily with any JVM language including Java 8**. 
 
 ![](https://raw.githubusercontent.com/cdimascio/swagger-spring-functional/master/assets/swagger.png)
@@ -18,17 +18,17 @@ Java 8 runtime
 <dependency>
     <groupId>io.github.cdimascio</groupId>
     <artifactId>swagger-spring-functional</artifactId>
-    <version>0.7.1</version>
+    <version>0.8.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```
-compile 'io.github.cdimascio:swagger-spring-functional:0.7.1'
+compile 'io.github.cdimascio:swagger-spring-functional:0.8.0'
 ```
 
-For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Cswagger-spring-functional%7C0.7.1%7Cjar)
+For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Cswagger-spring-functional%7C0.8.0%7Cjar)
 
 ## Usage (Kotlin)
 
@@ -36,7 +36,7 @@ The following sections describe usage. The first section shows using with Kotlin
 
 ### Configure
 
-One time configuration, must specify the location of the swagger specification and may optionally provide a custom error handler/
+One time configuration, must specify the location of the swagger specification and may optionally provide a *custom error handler!*
 
 ```kotlin
 import io.github.cdimascio.swagger.Validate
@@ -47,8 +47,8 @@ with custom error handler
 
 ```kotlin
 data class MyError(val id: String, val messages: List<String>)
-val validate = Validate.configure("static/api.json") { messages ->
-   Error("my_error_handler", messages)
+val validate = Validate.configure("static/api.json") { status, messages ->
+   Error(status.name, messages)
 }
 ```
 
@@ -96,13 +96,13 @@ class MyError {
         this.id = id;
         this.messages = messages;
     }
-    public getId() {
+    public String getId() {
         return id;
     }
     public void setId(String id) {
         this.id = id;
     }
-    public getMessages() {
+    public List<String> getMessages() {
         return messages;
     }
     public void setMessages(List<String> messages) {
@@ -112,8 +112,8 @@ class MyError {
 ```
 
 ```java
-Validate<ValidationError> validate = Validate.configure("static/api.json", messages ->
-    new MyError("my_error_handler", messages)
+Validate<ValidationError> validate = Validate.configure("static/api.json", (status, messages) ->
+    new MyError(status.getName(), messages)
 );
 ```
 

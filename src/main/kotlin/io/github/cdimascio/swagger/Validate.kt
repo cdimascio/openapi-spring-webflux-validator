@@ -1,18 +1,19 @@
 package io.github.cdimascio.swagger
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import org.springframework.http.HttpStatus
 import org.springframework.web.reactive.function.BodyExtractors
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import reactor.core.publisher.Mono
 
-
+operator fun Regex.contains(text: CharSequence): Boolean = this.matches(text)
 data class ValidationError(val code: Int, val message: String)
 
-class Validate<out T> internal constructor(swaggerJsonPath: String, errorHandler: (List<String>) -> T) {
+class Validate<out T> internal constructor(swaggerJsonPath: String, errorHandler: (status: HttpStatus, List<String>) -> T) {
     companion object Instance {
-        private var defaultErrorHandler = { messages: List<String> ->
-            ValidationError(400, messages[0])
+        private var defaultErrorHandler = { status: HttpStatus ,messages: List<String> ->
+            ValidationError(status.value(), messages[0])
         }
 
         fun  configure(
@@ -23,7 +24,7 @@ class Validate<out T> internal constructor(swaggerJsonPath: String, errorHandler
 
         fun  <T> configure(
                 swaggerJsonPath: String,
-                errorHandler: (List<String>) -> T
+                errorHandler: (HttpStatus, List<String>) -> T
         ): Validate<T> {
             return Validate(swaggerJsonPath, errorHandler)
         }
