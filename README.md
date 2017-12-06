@@ -1,5 +1,7 @@
 # swagger-functional-webflux
 
+![](https://img.shields.io/badge/build-passing-green.svg)![](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
+
 A friendly kotlin library used to validate spring functional API endpoints against a Swagger 2.0 specification. Great with webflux functional. 
 It **works happily with any JVM language including Java 8**. 
 
