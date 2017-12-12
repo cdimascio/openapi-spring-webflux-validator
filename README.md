@@ -8,6 +8,8 @@ It **works happily with any JVM language including Java 8**.
 ![](https://raw.githubusercontent.com/cdimascio/swagger-spring-functional/master/assets/swagger.png)
 ![](https://raw.githubusercontent.com/cdimascio/swagger-spring-functional/master/assets/spring5.png)
 
+See a working example of [swagger-functional-webflux in action](https://github.com/cdimascio/kotlin-swagger-spring-functional-template).
+
 ## Prequisites
 
 Java 8 runtime
