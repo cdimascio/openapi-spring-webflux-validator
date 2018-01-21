@@ -62,10 +62,10 @@
         "lastname"
       ],
       "properties": {
-        "firstname": {
-          "type": "string"
+        "id": {
+          "type": "number"
         },
-        "lastname": {
+        "name": {
           "type": "string"
         }
       }

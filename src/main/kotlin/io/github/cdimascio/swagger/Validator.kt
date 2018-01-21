@@ -6,14 +6,11 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
-import org.springframework.web.reactive.function.server.ServerResponse.ok
+import org.springframework.web.reactive.function.server.ServerResponse.status
 import reactor.core.publisher.Mono
 
 internal class Validator<out T>(swaggerJsonPath: String, private val errorHandler: (status: HttpStatus, List<String>) -> T) {
-    // TODO check use resource directory, then path (if relative?)
-    // if (useResources) File(classLoader.getResource(filename)!!.file).toPath()
-
-    private operator fun Regex.contains(text: CharSequence): Boolean = this.matches(text)
+    private operator fun Regex.contains(text: CharSequence) = this.matches(text)
     private val swaggerValidator = SwaggerRequestResponseValidator
             .createFor(swaggerJsonPath)
             .build()
@@ -23,22 +20,21 @@ internal class Validator<out T>(swaggerJsonPath: String, private val errorHandle
         body?.let { builder.withBody(body) }
         val simpleRequest = builder.build()
 
-        val report = swaggerValidator.validateRequest(simpleRequest);
+        val report = swaggerValidator.validateRequest(simpleRequest)
         return if (report.hasErrors()) {
             val status = status(report.messages[0].message)
             val messages = report.messages.map { it.message }
             val error = errorHandler(status, messages)
-            ok().body(BodyInserters.fromObject(error))
+            val e = BodyInserters.fromObject(error)
+            status(status).body(e)
         } else null
     }
 
-    private fun status(message: String): HttpStatus {
-        return when (message) {
-            in Regex(""".*does not match the 'consumes'.*""") -> HttpStatus.UNSUPPORTED_MEDIA_TYPE
-            in Regex(""".*is not a valid media type.*""") -> HttpStatus.UNSUPPORTED_MEDIA_TYPE
-            in Regex(""".*operation not allowed on path.*""") -> HttpStatus.METHOD_NOT_ALLOWED
-            else -> HttpStatus.BAD_REQUEST
-        }
+    private fun status(message: String) = when (message) {
+        in Regex(""".*does not match the 'consumes'.*""") -> HttpStatus.UNSUPPORTED_MEDIA_TYPE
+        in Regex(""".*is not a valid media type.*""") -> HttpStatus.UNSUPPORTED_MEDIA_TYPE
+        in Regex(""".*operation not allowed on path.*""") -> HttpStatus.METHOD_NOT_ALLOWED
+        else -> HttpStatus.BAD_REQUEST
     }
 
     private fun createSimpleRequestBuilder(request: ServerRequest): SimpleRequest.Builder {

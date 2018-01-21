@@ -10,26 +10,33 @@ import reactor.core.publisher.Mono
 operator fun Regex.contains(text: CharSequence): Boolean = this.matches(text)
 data class ValidationError(val code: Int, val message: String)
 
-class Validate<out T> internal constructor(swaggerJsonPath: String, errorHandler: (status: HttpStatus, List<String>) -> T) {
+typealias ErrorHandler<T> = (status: HttpStatus, List<String>) -> T
+class Validate<out T> internal constructor(
+        swaggerJsonPath: String,
+        errorHandler: ErrorHandler<T>) {
+
+    /**
+     * Returns an instance of Validate
+     */
     companion object Instance {
-        private var defaultErrorHandler = { status: HttpStatus ,messages: List<String> ->
-            ValidationError(status.value(), messages[0])
-        }
+        private val defaultErrorHandler: ErrorHandler<ValidationError> =
+                { status, messages -> ValidationError(status.value(), messages[0]) }
 
-        fun  configure(
-                swaggerJsonPath: String
-        ): Validate<ValidationError> {
-            return Validate(swaggerJsonPath, defaultErrorHandler)
-        }
+        /**
+         * Configure the validator by specifying the path to a Swagger v2 specification
+         * @param swaggerJsonPath path to a json formatted v2 swagger specification
+         * @return the validate object
+         */
+        fun configure(swaggerJsonPath: String) = configure(swaggerJsonPath, defaultErrorHandler)
 
-        fun  <T> configure(
-                swaggerJsonPath: String,
-                errorHandler: (HttpStatus, List<String>) -> T
-        ): Validate<T> {
-            return Validate(swaggerJsonPath, errorHandler)
-        }
+        /**
+         * Configure the validator by specifying the path to a Swagger v2 JSON specification and a custom error handler
+         * @param swaggerJsonPath path to a json formatted v2 swagger specification
+         * @param errorHandler custom validation error handler
+         * @return the validate object
+         */
+        fun <T> configure(swaggerJsonPath: String, errorHandler: ErrorHandler<T>) = Validate(swaggerJsonPath, errorHandler)
     }
-
 
     private val validator = Validator(swaggerJsonPath, errorHandler)
 
@@ -43,12 +50,9 @@ class Validate<out T> internal constructor(swaggerJsonPath: String, errorHandler
      * @param handler a function which returns a server response
      * @returns a server response
      */
-    fun request(request: ServerRequest, handler: () -> Mono<ServerResponse>): Mono<ServerResponse> {
-        val error = validator.validate(request)
-        return error?.let { it } ?: handler()
-    }
+    fun request(request: ServerRequest, handler: () -> Mono<ServerResponse>) = validator.validate(request) ?: handler()
 
-    inner class Request(val request: ServerRequest /* error handler but have a default */) {
+    inner class Request(val request: ServerRequest) {
         /**
          * @param bodyType the type to deserialize
          * @param handler a function which recieves the body and returns a server response
@@ -63,7 +67,7 @@ class Validate<out T> internal constructor(swaggerJsonPath: String, errorHandler
         fun validate(handler: (T) -> Mono<ServerResponse>): Mono<ServerResponse> {
             val success = { json: String -> jacksonObjectMapper().readValue(json, bodyType) }
             val json = request.body(BodyExtractors.toMono(String::class.java))
-            return json.flatMap { validator.validate(request, it)?.let { it } ?: handler(success(it)) }
+            return json.flatMap { validator.validate(request, it) ?: handler(success(it)) }
         }
     }
 }
