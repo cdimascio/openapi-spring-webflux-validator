@@ -252,7 +252,7 @@ class UserHandler {
             // it is the request body deserialized as User
             ok().body(Mono.just(it))
        }
-	}
+    }
 }
 ```
 
