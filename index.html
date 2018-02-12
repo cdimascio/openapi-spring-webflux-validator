@@ -146,10 +146,10 @@ validate.request(<span class="hljs-keyword">null</span>, () -&gt; {
     }
 
     <span class="hljs-function"><span class="hljs-keyword">fun</span> <span class="hljs-title">create</span><span class="hljs-params">(req: <span class="hljs-type">ServerRequest</span>)</span></span>: Mono&lt;ServerResponse&gt; {
-       <span class="hljs-keyword">return</span> validate.request(req).withBody(User::<span class="hljs-class"><span class="hljs-keyword">class</span>.<span class="hljs-title">java</span>) </span>{
-               <span class="hljs-comment">// it is the request body deserialized as User</span>
+        <span class="hljs-keyword">return</span> validate.request(req).withBody(User::<span class="hljs-class"><span class="hljs-keyword">class</span>.<span class="hljs-title">java</span>) </span>{
+            <span class="hljs-comment">// it is the request body deserialized as User</span>
             ok().body(Mono.just(it))
-        }
+       }
     }
 }</pre><h2>License</h2>
 <p><a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a></p>
