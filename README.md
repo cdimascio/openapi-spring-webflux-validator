@@ -214,7 +214,6 @@ class Routes(private val userHandler: UserHandler) {
             accept(TEXT_EVENT_STREAM).nest {
                 GET("/users", userHandler::findAll)
             }
-
         }
     }
 }
