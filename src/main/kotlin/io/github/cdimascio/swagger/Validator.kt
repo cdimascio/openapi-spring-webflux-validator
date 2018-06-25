@@ -34,6 +34,7 @@ internal class Validator<out T>(swaggerJsonPath: String, private val errorHandle
         in Regex(""".*does not match the 'consumes'.*""") -> HttpStatus.UNSUPPORTED_MEDIA_TYPE
         in Regex(""".*is not a valid media type.*""") -> HttpStatus.UNSUPPORTED_MEDIA_TYPE
         in Regex(""".*operation not allowed on path.*""") -> HttpStatus.METHOD_NOT_ALLOWED
+        // TODO map any other 40X cases above
         else -> HttpStatus.BAD_REQUEST
     }
 
