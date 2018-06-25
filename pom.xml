@@ -51,7 +51,7 @@
     <properties>
         <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
         <dokka.version>0.9.15</dokka.version>
-        <kotlin.version>1.2.10</kotlin.version>
+        <kotlin.version>1.2.50</kotlin.version>
         <junit.version>5.0.2</junit.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <source.plugin.version>3.0.1</source.plugin.version>
