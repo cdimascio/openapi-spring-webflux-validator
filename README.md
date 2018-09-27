@@ -12,7 +12,7 @@ See this [complete Spring 5 Webflux example that uses swagger-functional-webflux
 
 ## Prequisites
 
-Java 8 runtime
+Java 8 runtime or later
 
 ## Install
 
@@ -80,7 +80,7 @@ validate.request(req).withBody(User::class.java) { body ->
 }
 ```
 
-## Usages (Java 8)
+## Usage (Java 8 or later)
 
 ### Configure
 One time configuration, must specify the location of the swagger specification and may optionally provide a custom error handler/
