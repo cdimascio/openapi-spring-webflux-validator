@@ -6,7 +6,7 @@ It <strong>works happily with any JVM language including Java 8</strong>. </p>
 <img src="https://raw.githubusercontent.com/cdimascio/swagger-spring-functional/master/assets/spring5.png" /></p>
 <p>See this <a href="https://github.com/cdimascio/kotlin-swagger-spring-functional-template">complete Spring 5 Webflux example that uses swagger-functional-webflux</a>.</p>
 <h2>Prequisites</h2>
-<p>Java 8 runtime</p>
+<p>Java 8 runtime or later</p>
 <h2>Install</h2>
 <h3>Maven</h3>
 <pre><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
@@ -36,7 +36,7 @@ It <strong>works happily with any JVM language including Java 8</strong>. </p>
     <span class="hljs-comment">// Now you can do stuff. </span>
     <span class="hljs-comment">// For example, lets echo the request as the response </span>
     ok().body(Mono.just(body))
-}</pre><h2>Usages (Java 8)</h2>
+}</pre><h2>Usage (Java 8 or later)</h2>
 <h3>Configure</h3>
 <p>One time configuration, must specify the location of the swagger specification and may optionally provide a custom error handler/</p>
 <pre><span class="hljs-keyword">import</span> io.github.cdimascio.swagger.Validate;
