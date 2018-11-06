@@ -2,7 +2,7 @@
 
 ![](https://img.shields.io/badge/build-passing-green.svg)![](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 
-A friendly kotlin library used to validate spring functional API endpoints against a Swagger 2.0 specification. Great with webflux functional. 
+A friendly kotlin library used to validate spring functional API endpoints against an *OpenApi 3.0.0* or *Swagger 2.0* specification. Great with webflux functional. 
 It **works happily with any JVM language including Java 8**. 
 
 ![](https://raw.githubusercontent.com/cdimascio/swagger-spring-functional/master/assets/swagger.png)
@@ -22,14 +22,14 @@ Java 8 runtime
 <dependency>
     <groupId>io.github.cdimascio</groupId>
     <artifactId>swagger-spring-functional</artifactId>
-    <version>0.8.3</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```
-compile 'io.github.cdimascio:swagger-spring-functional:0.8.3'
+compile 'io.github.cdimascio:swagger-spring-functional:1.0.0'
 ```
 
 For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Cswagger-spring-functional%7C0.8.1%7Cjar)
@@ -259,6 +259,3 @@ class UserHandler {
 ## License
 
 [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
-
-
-

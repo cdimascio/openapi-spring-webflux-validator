@@ -1,6 +1,6 @@
 package io.github.cdimascio.swagger
 
-import com.atlassian.oai.validator.SwaggerRequestResponseValidator
+import com.atlassian.oai.validator.OpenApiInteractionValidator
 import com.atlassian.oai.validator.model.SimpleRequest
 import org.springframework.http.HttpStatus
 import org.springframework.web.reactive.function.BodyInserters
@@ -11,9 +11,9 @@ import reactor.core.publisher.Mono
 
 internal class Validator<out T>(swaggerJsonPath: String, private val errorHandler: (status: HttpStatus, List<String>) -> T) {
     private operator fun Regex.contains(text: CharSequence) = this.matches(text)
-    private val swaggerValidator = SwaggerRequestResponseValidator
-            .createFor(swaggerJsonPath)
-            .build()
+    private val swaggerValidator = OpenApiInteractionValidator
+        .createFor(swaggerJsonPath)
+        .build()
 
     fun validate(request: ServerRequest, body: String? = null): Mono<ServerResponse>? {
         val builder = createSimpleRequestBuilder(request)
@@ -22,7 +22,7 @@ internal class Validator<out T>(swaggerJsonPath: String, private val errorHandle
 
         val report = swaggerValidator.validateRequest(simpleRequest)
         return if (report.hasErrors()) {
-            val status = status(report.messages[0].message)
+            val status = status(report.messages[0].key)
             val messages = report.messages.map { it.message }
             val error = errorHandler(status, messages)
             val e = BodyInserters.fromObject(error)
@@ -30,10 +30,12 @@ internal class Validator<out T>(swaggerJsonPath: String, private val errorHandle
         } else null
     }
 
-    private fun status(message: String) = when (message) {
-        in Regex(""".*does not match the 'consumes'.*""") -> HttpStatus.UNSUPPORTED_MEDIA_TYPE
-        in Regex(""".*is not a valid media type.*""") -> HttpStatus.UNSUPPORTED_MEDIA_TYPE
-        in Regex(""".*operation not allowed on path.*""") -> HttpStatus.METHOD_NOT_ALLOWED
+    private fun status(key: String) = when (key) {
+        in Regex("validation.request.contentType.notAllowed") -> HttpStatus.UNSUPPORTED_MEDIA_TYPE
+        in Regex("validation.request.contentType.invalid") -> HttpStatus.UNSUPPORTED_MEDIA_TYPE
+        in Regex("validation.request.path.missing") -> HttpStatus.NOT_FOUND
+        in Regex("validation.request.accept.invalid") -> HttpStatus.NOT_ACCEPTABLE
+        in Regex("validation.request.operation.notAllowed") -> HttpStatus.METHOD_NOT_ALLOWED
         // TODO map any other 40X cases above
         else -> HttpStatus.BAD_REQUEST
     }

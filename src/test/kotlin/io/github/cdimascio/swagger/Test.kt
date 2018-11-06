@@ -19,7 +19,7 @@ data class MyError(val code: Int, val name: String)
 data class User(val id: Int, val name: String)
 
 class Test {
-    private val validate = Validate.configure("api.json") { status, message ->
+    private val validate = Validate.configure("api.yaml") { status, message ->
         MyError(status.value(), message[0])
     }
 
@@ -50,7 +50,7 @@ class Test {
         val req = MockServerRequest.builder()
                 .method(HttpMethod.POST)
                 .uri(URI.create("/api/users"))
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_ATOM_XML.toString())
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE)
                 .body(Mono.just("""
                     { "id": "carmine", "name": "carmine" }
                 """.trimIndent()))
@@ -121,6 +121,27 @@ class Test {
             ServerResponse.ok().body(
                     BodyInserters.fromObject(
                             User(1, "carmine")))
+        }
+    }
+
+    @test
+    fun `Validate method not allowed`() {
+        val req = MockServerRequest.builder()
+            .method(HttpMethod.PUT)
+            .uri(URI.create("/api/users"))
+            .body(Mono.just("""
+                    { "id": 1, "name": "dimascio" }
+                """.trimIndent()))
+
+        val res = validate.request(req).withBody(User::class.java) {
+            Assertions.assertNotNull(it)
+            ServerResponse.ok().build()
+        }.block()
+
+        if (res != null) {
+            Assertions.assertEquals(HttpStatus.METHOD_NOT_ALLOWED, res.statusCode())
+        } else {
+            Assertions.fail("Failed to receive a response")
         }
     }
 }
