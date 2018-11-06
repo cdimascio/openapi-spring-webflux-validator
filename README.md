@@ -42,9 +42,11 @@ The following sections describe usage. The first section shows using with Kotlin
 
 One time configuration, must specify the location of the swagger specification and may optionally provide a *custom error handler!*
 
+Supports JSON and YAML
+
 ```kotlin
 import io.github.cdimascio.swagger.Validate
-val validate = Validate.configure("static/api.json")
+val validate = Validate.configure("static/api.yaml")
 ```
 
 with custom error handler
