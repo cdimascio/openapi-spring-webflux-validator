@@ -1,14 +1,13 @@
-# swagger-functional-webflux
+# openapi-spring-webflux-validator
 
 ![](https://img.shields.io/badge/build-passing-green.svg)![](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 
 A friendly kotlin library used to validate spring functional API endpoints against an *OpenApi 3.0.0* or *Swagger 2.0* specification. Great with webflux functional. 
 It **works happily with any JVM language including Java 8**. 
 
-![](https://raw.githubusercontent.com/cdimascio/openapi-spring-webflux-validator/master/assets/swagger.png)
-![](https://raw.githubusercontent.com/cdimascio/openapi-spring-webflux-validator/master/assets/spring5.png)
+![](https://raw.githubusercontent.com/cdimascio/openapi-spring-webflux-validator/master/assets/openapi-spring5-webflux.png)
 
-See this [complete Spring 5 Webflux example that uses swagger-functional-webflux](https://github.com/cdimascio/kotlin-openapi-spring-webflux-validator-template).
+See this [complete Spring 5 Webflux example that uses openapi-spring-webflux-validator](https://github.com/cdimascio/kotlin-openapi-spring-webflux-validator-template).
 
 ## Prequisites
 
@@ -175,7 +174,7 @@ curl -X POST http://localhost:8080/api/users -H "Content-Type: application/json"
 }'
 ```
 
-`swagger-functional-webflux` automatically validates the request against a Swagger spect and returns:
+`openapi-spring-webflux-validator` automatically validates the request against a Swagger spect and returns:
 
 ```json
 {
@@ -228,7 +227,7 @@ import io.github.cdimascio.swagger.Validate
 val validate = Validate.configure("static/api.json")
 ```
 
-#### Validate with swagger-functional-webflux
+#### Validate with openapi-spring-webflux-validator
 ```kotlin
 package myproject.controllers
 
