@@ -5,10 +5,10 @@
 A friendly kotlin library used to validate spring functional API endpoints against an *OpenApi 3.0.0* or *Swagger 2.0* specification. Great with webflux functional. 
 It **works happily with any JVM language including Java 8**. 
 
-![](https://raw.githubusercontent.com/cdimascio/swagger-spring-functional/master/assets/swagger.png)
-![](https://raw.githubusercontent.com/cdimascio/swagger-spring-functional/master/assets/spring5.png)
+![](https://raw.githubusercontent.com/cdimascio/openapi-spring-webflux-validator/master/assets/swagger.png)
+![](https://raw.githubusercontent.com/cdimascio/openapi-spring-webflux-validator/master/assets/spring5.png)
 
-See this [complete Spring 5 Webflux example that uses swagger-functional-webflux](https://github.com/cdimascio/kotlin-swagger-spring-functional-template).
+See this [complete Spring 5 Webflux example that uses swagger-functional-webflux](https://github.com/cdimascio/kotlin-openapi-spring-webflux-validator-template).
 
 ## Prequisites
 
@@ -21,7 +21,7 @@ Java 8 runtime
 ```xml
 <dependency>
     <groupId>io.github.cdimascio</groupId>
-    <artifactId>swagger-spring-functional</artifactId>
+    <artifactId>openapi-spring-webflux-validator</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
@@ -29,10 +29,10 @@ Java 8 runtime
 ### Gradle
 
 ```
-compile 'io.github.cdimascio:swagger-spring-functional:1.0.0'
+compile 'io.github.cdimascio:openapi-spring-webflux-validator:1.0.0'
 ```
 
-For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Cswagger-spring-functional%7C0.8.1%7Cjar)
+For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Copenapi-spring-webflux-validator%7C0.8.1%7Cjar)
 
 ## Usage (Kotlin)
 

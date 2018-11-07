@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <name>swagger-spring-functional</name>
+    <name>openapi-spring-webflux-validator</name>
     <description>Validate webflux functional endpoints given a Swagger v2 specification</description>
-    <url>https://github.com/cdimascio/swagger-spring-functional</url>
+    <url>https://github.com/cdimascio/openapi-spring-webflux-validator</url>
 
     <groupId>io.github.cdimascio</groupId>
-    <artifactId>swagger-spring-functional</artifactId>
+    <artifactId>openapi-spring-webflux-validator</artifactId>
     <version>1.0.0</version>
 
     <licenses>
@@ -27,10 +27,10 @@
     </organization>
 
     <scm>
-        <connection>scm:github:https://github.com/cdimascio/swagger-spring-functional</connection>
-        <developerConnection>scm:github:https://github.com/cdimascio/swagger-spring-functional</developerConnection>
+        <connection>scm:github:https://github.com/cdimascio/openapi-spring-webflux-validator</connection>
+        <developerConnection>scm:github:https://github.com/cdimascio/openapi-spring-webflux-validator</developerConnection>
         <tag>master</tag>
-        <url>https://github.com/cdimascio/swagger-spring-functional</url>
+        <url>https://github.com/cdimascio/openapi-spring-webflux-validator</url>
     </scm>
 
     <developers>
