@@ -82,7 +82,7 @@ validate.request(req).withBody(User::class.java) { body ->
 }
 ```
 
-## Usages (Java 8)
+## Usage (Java 8)
 
 ### Configure
 One time configuration, must specify the location of the swagger specification and may optionally provide a custom error handler/
@@ -261,3 +261,6 @@ class UserHandler {
 ## License
 
 [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+
+
+
