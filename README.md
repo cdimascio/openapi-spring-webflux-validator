@@ -26,6 +26,17 @@ Java 8 runtime
 </dependency>
 ```
 
+The package may not yet have made it to MavenCentral. If so, you can get the same package via its old name
+
+```xml
+<dependency>
+    <groupId>io.github.cdimascio</groupId>
+    <artifactId>swagger-spring-functional</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+
 ### Gradle
 
 ```
