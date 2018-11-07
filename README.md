@@ -22,7 +22,7 @@ Java 8 runtime
 <dependency>
     <groupId>io.github.cdimascio</groupId>
     <artifactId>openapi-spring-webflux-validator</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
@@ -40,7 +40,7 @@ The package may not yet have made it to MavenCentral. If so, you can get the sam
 ### Gradle
 
 ```
-compile 'io.github.cdimascio:openapi-spring-webflux-validator:1.0.0'
+compile 'io.github.cdimascio:openapi-spring-webflux-validator:1.0.1'
 ```
 
 For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Copenapi-spring-webflux-validator%7C0.8.1%7Cjar)
