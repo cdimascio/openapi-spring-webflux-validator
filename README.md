@@ -2,7 +2,7 @@
 
 ![](https://img.shields.io/badge/build-passing-green.svg)![](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 
-A friendly kotlin library used to validate spring functional API endpoints against an *OpenApi 3.0.0* or *Swagger 2.0* specification. Great with webflux functional. 
+A friendly kotlin library to validate API endpoints using an *OpenApi 3.0.0* or *Swagger 2.0* specification. Great with webflux functional. 
 It **works happily with any JVM language including Java 8**. 
 <p align="center">
 	<img src="https://raw.githubusercontent.com/cdimascio/openapi-spring-webflux-validator/master/assets/openapi-spring5-webflux-validator.png" width="600"/>
