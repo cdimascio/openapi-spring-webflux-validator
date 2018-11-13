@@ -12,7 +12,7 @@ See this [complete Spring 5 Webflux example that uses openapi-spring-webflux-val
 
 ## Prequisites
 
-Java 8 runtime
+Java 8 or greater
 
 ## Install
 
@@ -225,7 +225,7 @@ class Routes(private val userHandler: UserHandler) {
 package myproject
 
 import io.github.cdimascio.swagger.Validate
-val validate = Validate.configure("static/api.json")
+val validate = Validate.configure("static/api.yaml")
 ```
 
 #### Validate with openapi-spring-webflux-validator
