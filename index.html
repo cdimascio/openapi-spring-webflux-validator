@@ -6,6 +6,7 @@ It <strong>works happily with any JVM language including Java 8</strong>. </p>
     <img src="https://raw.githubusercontent.com/cdimascio/openapi-spring-webflux-validator/master/assets/openapi-spring5-webflux-validator.png" />
 </p>
 
+<p>Supports specifications in <em>YAML</em> and <em>JSON</em></p>
 <p>See this <a href="https://github.com/cdimascio/kotlin-swagger-spring-functional-template">complete Spring 5 Webflux example that uses openapi-spring-webflux-validator</a>.</p>
 <h2>Prequisites</h2>
 <p>Java 8 or greater</p>
@@ -18,9 +19,9 @@ It <strong>works happily with any JVM language including Java 8</strong>. </p>
 <span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span></pre><h3>Gradle</h3>
 <pre><span class="hljs-keyword">compile</span> <span class="hljs-string">'io.github.cdimascio:openapi-spring-webflux-validator:1.0.1'</span></pre><p>For sbt, grape, ivy and more, see <a href="https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Copenapi-spring-webflux-validator%7C1.0.1%7Cjar">here</a></p>
 <h2>Usage (Kotlin)</h2>
-<p>The following sections describe usage. The first section shows using with Kotlin. The second section show usage with Java 8.</p>
+<p>This section and the next describe usage with Kotlin and Java respectively.</p>
 <h3>Configure</h3>
-<p>One time configuration, must specify the location of the swagger specification and may optionally provide a <em>custom error handler!</em></p>
+<p>This one-time configuration requires you to provide the <em>location of the openapi/swagger specification</em> and an optional <em>custom error handler</em>.</p>
 <p>Supports JSON and YAML</p>
 <pre><span class="hljs-keyword">import</span> io.github.cdimascio.swagger.Validate
 <span class="hljs-keyword">val</span> validate = Validate.configure(<span class="hljs-string">&quot;static/api.yaml&quot;</span>)</pre><p>with custom error handler</p>
@@ -41,7 +42,7 @@ It <strong>works happily with any JVM language including Java 8</strong>. </p>
     ok().body(Mono.just(body))
 }</pre><h2>Usage (Java 8)</h2>
 <h3>Configure</h3>
-<p>One time configuration, must specify the location of the swagger specification and may optionally provide a custom error handler/</p>
+<p>This one-time configuration requires you to provide the <em>location of the openapi/swagger specification</em> and an optional <em>custom error handler</em>.</p>
 <pre><span class="hljs-keyword">import</span> io.github.cdimascio.swagger.Validate;
 Validate&lt;ValidationError&gt; validate = Validate.configure(<span class="hljs-string">&quot;static/api.json&quot;</span>)</pre><p>with custom error handler</p>
 <pre><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyError</span> </span>{
