@@ -30,7 +30,7 @@ Java 8 or greater
 
 ### Gradle
 
-```
+```groovy
 compile 'io.github.cdimascio:openapi-spring-webflux-validator:1.0.1'
 ```
 
