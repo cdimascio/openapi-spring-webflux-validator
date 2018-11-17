@@ -2,17 +2,19 @@
 
 ![](https://img.shields.io/badge/build-passing-green.svg)![](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 
-A friendly kotlin library used to validate spring functional API endpoints against an *OpenApi 3.0.0* or *Swagger 2.0* specification. Great with webflux functional. 
+A friendly kotlin library to validate API endpoints using an _OpenApi 3.0.0_ or _Swagger 2.0_ specification. Great with webflux functional. 
 It **works happily with any JVM language including Java 8**. 
 <p align="center">
 	<img src="https://raw.githubusercontent.com/cdimascio/openapi-spring-webflux-validator/master/assets/openapi-spring5-webflux-validator.png" width="600"/>
 </p>
 
+Supports specifications in _YAML_ and _JSON_
+
 See this [complete Spring 5 Webflux example that uses openapi-spring-webflux-validator](https://github.com/cdimascio/kotlin-swagger-spring-functional-template).
 
 ## Prequisites
 
-Java 8 runtime
+Java 8 or greater
 
 ## Install
 
@@ -26,32 +28,21 @@ Java 8 runtime
 </dependency>
 ```
 
-The package may not yet have made it to MavenCentral. If so, you can get the same package via its old name
-
-```xml
-<dependency>
-    <groupId>io.github.cdimascio</groupId>
-    <artifactId>swagger-spring-functional</artifactId>
-    <version>1.0.0</version>
-</dependency>
-```
-
-
 ### Gradle
 
 ```
 compile 'io.github.cdimascio:openapi-spring-webflux-validator:1.0.1'
 ```
 
-For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Copenapi-spring-webflux-validator%7C0.8.1%7Cjar)
+For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Copenapi-spring-webflux-validator%7C1.0.1%7Cjar)
 
 ## Usage (Kotlin)
 
-The following sections describe usage. The first section shows using with Kotlin. The second section show usage with Java 8.
+This section and the next describe usage with Kotlin and Java respectively.
 
 ### Configure
 
-One time configuration, must specify the location of the swagger specification and may optionally provide a *custom error handler!*
+This one-time configuration requires you to provide the _location of the openapi/swagger specification_ and an optional _custom error handler_.
 
 Supports JSON and YAML
 
@@ -96,7 +87,7 @@ validate.request(req).withBody(User::class.java) { body ->
 ## Usage (Java 8)
 
 ### Configure
-One time configuration, must specify the location of the swagger specification and may optionally provide a custom error handler/
+This one-time configuration requires you to provide the _location of the openapi/swagger specification_ and an optional _custom error handler_.
 
 ```java
 import io.github.cdimascio.swagger.Validate;
@@ -202,7 +193,6 @@ curl -X POST http://localhost:8080/api/users -H "Content-Type: application/json"
 
 ## Example
 
-
 Let's say you have an endpoint `/users` that supports both `GET` and `POST` operations.
 
 You can create those routes and validate them like so:
@@ -236,10 +226,11 @@ class Routes(private val userHandler: UserHandler) {
 package myproject
 
 import io.github.cdimascio.swagger.Validate
-val validate = Validate.configure("static/api.json")
+val validate = Validate.configure("static/api.yaml")
 ```
 
 #### Validate with openapi-spring-webflux-validator
+
 ```kotlin
 package myproject.controllers
 
