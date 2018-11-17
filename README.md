@@ -1,6 +1,6 @@
 # openapi-spring-webflux-validator
 
-![](https://img.shields.io/badge/build-passing-green.svg)![](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
+![](https://travis-ci.org/cdimascio/openapi-spring-webflux-validator.svg?branch=master)![](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 
 A friendly kotlin library to validate API endpoints using an _OpenApi 3.0.0_ or _Swagger 2.0_ specification. Great with webflux functional. 
 It **works happily with any JVM language including Java 8**. 
