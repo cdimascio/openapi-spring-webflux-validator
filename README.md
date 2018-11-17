@@ -229,7 +229,7 @@ import io.github.cdimascio.swagger.Validate
 val validate = Validate.configure("static/api.yaml")
 ```
 
-**Validate with openapi-spring-webflux-validator*
+**Validate with openapi-spring-webflux-validator**
 
 ```kotlin
 package myproject.controllers
