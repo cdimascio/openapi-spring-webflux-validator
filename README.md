@@ -24,14 +24,14 @@ Java 8 or greater
 <dependency>
     <groupId>io.github.cdimascio</groupId>
     <artifactId>openapi-spring-webflux-validator</artifactId>
-    <version>1.0.1</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-compile 'io.github.cdimascio:openapi-spring-webflux-validator:1.0.1'
+compile 'io.github.cdimascio:openapi-spring-webflux-validator:2.0.0'
 ```
 
 For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Copenapi-spring-webflux-validator%7C1.0.1%7Cjar)
