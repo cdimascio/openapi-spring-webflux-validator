@@ -1,4 +1,5 @@
+dist: trusty
 language: java
 jdk:
-  -openjdk8
+  - openjdk8
 script: mvn clean test
