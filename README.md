@@ -1,6 +1,6 @@
 # openapi-spring-webflux-validator
 
-![](https://img.shields.io/badge/build-passing-green.svg)![](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
+![](https://travis-ci.org/cdimascio/openapi-spring-webflux-validator.svg?branch=master)![](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 
 A friendly kotlin library to validate API endpoints using an _OpenApi 3.0.0_ or _Swagger 2.0_ specification. Great with webflux functional. 
 It **works happily with any JVM language including Java 8**. 
@@ -30,7 +30,7 @@ Java 8 or greater
 
 ### Gradle
 
-```
+```groovy
 compile 'io.github.cdimascio:openapi-spring-webflux-validator:1.0.1'
 ```
 
@@ -40,11 +40,11 @@ For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetai
 
 This section and the next describe usage with Kotlin and Java respectively.
 
-### Configure
+### Configure (Kotlin)
 
 This one-time configuration requires you to provide the _location of the openapi/swagger specification_ and an optional _custom error handler_.
 
-Supports JSON and YAML
+Supports `JSON` and `YAML`
 
 ```kotlin
 import io.github.cdimascio.swagger.Validate
@@ -60,7 +60,7 @@ val validate = Validate.configure("static/api.json") { status, messages ->
 }
 ```
 
-### Validate a request
+### Validate a request (Kotlin)
 
 Using the `validate` instance created above, you can now validate a request:
 
@@ -84,9 +84,9 @@ validate.request(req).withBody(User::class.java) { body ->
 }
 ```
 
-## Usage (Java 8)
+## Usage (Java 8 _or greater_)
 
-### Configure
+### Configure (Java)
 This one-time configuration requires you to provide the _location of the openapi/swagger specification_ and an optional _custom error handler_.
 
 ```java
@@ -125,7 +125,7 @@ Validate<ValidationError> validate = Validate.configure("static/api.json", (stat
 );
 ```
 
-### Validate a request
+### Validate a request (Java)
 
 Using the `validate` instance created above, you can now validate a request:
 
@@ -197,7 +197,7 @@ Let's say you have an endpoint `/users` that supports both `GET` and `POST` oper
 
 You can create those routes and validate them like so:
 
-#### Create the routes:
+**Create the routes:**
 
 ```kotlin
 package myproject.controllers
@@ -229,7 +229,7 @@ import io.github.cdimascio.swagger.Validate
 val validate = Validate.configure("static/api.yaml")
 ```
 
-#### Validate with openapi-spring-webflux-validator
+**Validate with openapi-spring-webflux-validator*
 
 ```kotlin
 package myproject.controllers
@@ -263,6 +263,3 @@ class UserHandler {
 ## License
 
 [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
-
-
-
