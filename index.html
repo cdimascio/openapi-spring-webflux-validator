@@ -40,7 +40,7 @@ It <strong>works happily with any JVM language including Java 8</strong>. </p>
     <span class="hljs-comment">// Now you can do stuff. </span>
     <span class="hljs-comment">// For example, lets echo the request as the response </span>
     ok().body(Mono.just(body))
-}</pre><h2>Usage (Java 8)</h2>
+}</pre><h2>Usage (Java 8 <em>or greater</em>)</h2>
 <h3>Configure</h3>
 <p>This one-time configuration requires you to provide the <em>location of the openapi/swagger specification</em> and an optional <em>custom error handler</em>.</p>
 <pre><span class="hljs-keyword">import</span> io.github.cdimascio.swagger.Validate;
