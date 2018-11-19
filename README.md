@@ -34,7 +34,7 @@ Java 8 or greater
 compile 'io.github.cdimascio:openapi-spring-webflux-validator:2.0.0'
 ```
 
-For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Copenapi-spring-webflux-validator%7C1.0.1%7Cjar)
+For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Copenapi-spring-webflux-validator%7C2.0.0%7Cjar)
 
 ## Usage (Kotlin)
 
