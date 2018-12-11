@@ -60,6 +60,19 @@ val validate = Validate.configure("static/api.json") { status, messages ->
 }
 ```
 
+with custom ObjectMapper factory:
+
+```kotlin
+val validate = Validate.configure(
+   openApiSwaggerPath = "api.yaml",
+   errorHandler = { status, message -> ValidationError(status.value(), message[0]) },
+   objectMapperFactory = { ObjectMapper()
+       .registerKotlinModule()
+       .registerModule(JavaTimeModule())
+       .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false) }
+)
+```
+
 ### Validate a request (Kotlin)
 
 Using the `validate` instance created above, you can now validate a request:
