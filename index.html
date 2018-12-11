@@ -28,7 +28,15 @@ It <strong>works happily with any JVM language including Java &gt;=8</strong>. <
 <pre><span class="hljs-keyword">data</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyError</span></span>(<span class="hljs-keyword">val</span> id: String, <span class="hljs-keyword">val</span> messages: List&lt;String&gt;)
 <span class="hljs-keyword">val</span> validate = Validate.configure(<span class="hljs-string">&quot;static/api.json&quot;</span>) { status, messages -&gt;
    Error(status.name, messages)
-}</pre><h3>Validate a request (Kotlin)</h3>
+}</pre><p>with custom ObjectMapper factory:</p>
+<pre><span class="hljs-keyword">val</span> validate = Validate.configure(
+   openApiSwaggerPath = <span class="hljs-string">&quot;api.yaml&quot;</span>,
+   errorHandler = { status, message -&gt; ValidationError(status.value(), message[<span class="hljs-number">0</span>]) },
+   objectMapperFactory = { ObjectMapper()
+       .registerKotlinModule()
+       .registerModule(JavaTimeModule())
+       .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, <span class="hljs-literal">false</span>) }
+)</pre><h3>Validate a request (Kotlin)</h3>
 <p>Using the <code>validate</code> instance created above, you can now validate a request:</p>
 <p>without a body</p>
 <pre>validate.request(req) {
