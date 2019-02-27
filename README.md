@@ -1,6 +1,6 @@
 # openapi-spring-webflux-validator
 
-![](https://travis-ci.org/cdimascio/openapi-spring-webflux-validator.svg?branch=master)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f78b72ca90104e42b111723a7720adf3)](https://www.codacy.com/app/cdimascio/openapi-spring-webflux-validator?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cdimascio/openapi-spring-webflux-validator&amp;utm_campaign=Badge_Grade)![](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
+![](https://travis-ci.org/cdimascio/openapi-spring-webflux-validator.svg?branch=master)[![Maven Central](https://img.shields.io/maven-central/v/io.github.cdimascio/openapi-spring-webflux-validator.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.cdimascio%22%20AND%20a:%22openapi-spring-webflux-validator%22)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f78b72ca90104e42b111723a7720adf3)](https://www.codacy.com/app/cdimascio/openapi-spring-webflux-validator?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cdimascio/openapi-spring-webflux-validator&amp;utm_campaign=Badge_Grade)![](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 
 A friendly kotlin library to validate API endpoints using an _OpenApi 3.0.0_ or _Swagger 2.0_ specification. Great with webflux functional. 
 It **works happily with any JVM language including Java >=8**. 
@@ -24,14 +24,14 @@ Java 8 or greater
 <dependency>
     <groupId>io.github.cdimascio</groupId>
     <artifactId>openapi-spring-webflux-validator</artifactId>
-    <version>2.0.0</version>
+    <version>2.1.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-compile 'io.github.cdimascio:openapi-spring-webflux-validator:2.0.0'
+compile 'io.github.cdimascio:openapi-spring-webflux-validator:2.1.0'
 ```
 
 For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Copenapi-spring-webflux-validator%7C2.0.0%7Cjar)
