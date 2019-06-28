@@ -1,7 +1,6 @@
 package io.github.cdimascio.swagger
 
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Assertions.fail
+import org.junit.jupiter.api.Assertions.*
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
@@ -11,8 +10,6 @@ import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.server.ServerResponse
 import reactor.core.publisher.Mono
 import java.net.URI
-import org.junit.jupiter.api.AfterAll as afterall
-import org.junit.jupiter.api.BeforeAll as beforeall
 import org.junit.jupiter.api.Test as test
 
 data class MyError(val code: Int, val name: String)
@@ -39,9 +36,9 @@ class Test {
             fail("Validator threw and unexpected error")
         }.block()
         if (res != null) {
-            Assertions.assertEquals(HttpStatus.BAD_REQUEST, res.statusCode())
+            assertEquals(HttpStatus.BAD_REQUEST, res.statusCode())
         } else {
-            Assertions.fail("Failed to receive a response")
+            fail("Failed to receive a response")
         }
     }
 
@@ -56,14 +53,14 @@ class Test {
                 """.trimIndent()))
 
         val res = validate.request(req).withBody(User::class.java) {
-            Assertions.assertNotNull(it)
+            assertNotNull(it)
             ServerResponse.ok().build()
         }.block()
 
         if (res != null) {
-            Assertions.assertEquals(HttpStatus.UNSUPPORTED_MEDIA_TYPE, res.statusCode())
+            assertEquals(HttpStatus.UNSUPPORTED_MEDIA_TYPE, res.statusCode())
         } else {
-            Assertions.fail("Failed to receive a response")
+            fail("Failed to receive a response")
         }
     }
 
@@ -76,14 +73,14 @@ class Test {
                 .body(Mono.empty<String>())
 
         val res = validate.request(req).withBody(User::class.java) {
-            Assertions.assertNotNull(it)
+            assertNotNull(it)
             ServerResponse.ok().build()
         }.block()
 
         if (res != null) {
-            Assertions.assertEquals(HttpStatus.BAD_REQUEST, res.statusCode())
+            assertEquals(HttpStatus.BAD_REQUEST, res.statusCode())
         } else {
-            Assertions.fail("Failed to receive a response")
+            fail("Failed to receive a response")
         }
     }
 
@@ -98,14 +95,14 @@ class Test {
                 """.trimIndent()))
 
         val res = validate.request(req).withBody(User::class.java) {
-            Assertions.assertNotNull(it)
+            assertNotNull(it)
             ServerResponse.ok().build()
         }.block()
 
         if (res != null) {
-            Assertions.assertEquals(HttpStatus.BAD_REQUEST, res.statusCode())
+            assertEquals(HttpStatus.BAD_REQUEST, res.statusCode())
         } else {
-            Assertions.fail("Failed to receive a response")
+            fail("Failed to receive a response")
         }
     }
 
@@ -120,14 +117,14 @@ class Test {
                 """.trimIndent()))
 
         val res = validate.request(req).withBody(User::class.java) {
-            Assertions.assertNotNull(it)
+            assertNotNull(it)
             ServerResponse.ok().build()
         }.block()
 
         if (res != null) {
-            Assertions.assertEquals(HttpStatus.OK, res.statusCode())
+            assertEquals(HttpStatus.OK, res.statusCode())
         } else {
-            Assertions.fail("Failed to receive a response")
+            fail("Failed to receive a response")
         }
     }
 
@@ -154,15 +151,14 @@ class Test {
                 """.trimIndent()))
 
         val res = validate.request(req).withBody(User::class.java) {
-            Assertions.assertNotNull(it)
+            assertNotNull(it)
             ServerResponse.ok().build()
         }.block()
 
         if (res != null) {
-            Assertions.assertEquals(HttpStatus.METHOD_NOT_ALLOWED, res.statusCode())
+            assertEquals(HttpStatus.METHOD_NOT_ALLOWED, res.statusCode())
         } else {
-            Assertions.fail("Failed to receive a response")
+            fail("Failed to receive a response")
         }
     }
 }
-
