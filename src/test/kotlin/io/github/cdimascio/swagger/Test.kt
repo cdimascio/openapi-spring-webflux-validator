@@ -68,6 +68,26 @@ class Test {
     }
 
     @test
+    fun `Validate an empty body`() {
+        val req = MockServerRequest.builder()
+                .method(HttpMethod.POST)
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
+                .uri(URI.create("/api/users"))
+                .body(Mono.empty<String>())
+
+        val res = validate.request(req).withBody(User::class.java) {
+            Assertions.assertNotNull(it)
+            ServerResponse.ok().build()
+        }.block()
+
+        if (res != null) {
+            Assertions.assertEquals(HttpStatus.BAD_REQUEST, res.statusCode())
+        } else {
+            Assertions.fail("Failed to receive a response")
+        }
+    }
+
+    @test
     fun `Validate bad value type returns bad request`() {
         val req = MockServerRequest.builder()
                 .method(HttpMethod.POST)

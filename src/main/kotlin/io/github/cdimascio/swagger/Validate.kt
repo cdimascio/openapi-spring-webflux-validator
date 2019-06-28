@@ -98,7 +98,7 @@ class Validate<out T> internal constructor(
          */
         fun validate(handler: (T) -> Mono<ServerResponse>): Mono<ServerResponse> {
             val success = { json: String -> objectMapperFactory().readValue(json, bodyType) }
-            val json = request.body(BodyExtractors.toMono(String::class.java))
+            val json = request.body(BodyExtractors.toMono(String::class.java)).switchIfEmpty(Mono.just(""))
             return json.flatMap { validator.validate(request, it) ?: handler(success(it)) }
         }
     }
