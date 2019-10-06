@@ -1,4 +1,4 @@
-package io.github.cdimascio.swagger
+package io.github.cdimascio.openapi
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper

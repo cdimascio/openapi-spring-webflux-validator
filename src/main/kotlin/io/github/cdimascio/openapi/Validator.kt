@@ -1,4 +1,4 @@
-package io.github.cdimascio.swagger
+package io.github.cdimascio.openapi
 
 import com.atlassian.oai.validator.OpenApiInteractionValidator
 import com.atlassian.oai.validator.model.SimpleRequest
