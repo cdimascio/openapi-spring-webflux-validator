@@ -47,7 +47,7 @@ This one-time configuration requires you to provide the _location of the openapi
 Supports `JSON` and `YAML`
 
 ```kotlin
-import io.github.cdimascio.swagger.Validate
+import io.github.cdimascio.openapi.Validate
 val validate = Validate.configure("static/api.yaml")
 ```
 
@@ -103,7 +103,7 @@ validate.request(req).withBody(User::class.java) { body ->
 This one-time configuration requires you to provide the _location of the openapi/swagger specification_ and an optional _custom error handler_.
 
 ```java
-import io.github.cdimascio.swagger.Validate;
+import io.github.cdimascio.openapi.Validate;
 Validate<ValidationError> validate = Validate.configure("static/api.json")
 ```
 
@@ -238,7 +238,7 @@ class Routes(private val userHandler: UserHandler) {
 ```kotlin
 package myproject
 
-import io.github.cdimascio.swagger.Validate
+import io.github.cdimascio.openapi.Validate
 val validate = Validate.configure("static/api.yaml")
 ```
 
