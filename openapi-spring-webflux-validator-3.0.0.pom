@@ -10,7 +10,7 @@
 
     <groupId>io.github.cdimascio</groupId>
     <artifactId>openapi-spring-webflux-validator</artifactId>
-    <version>2.1.2</version>
+    <version>3.0.0</version>
 
     <licenses>
         <license>

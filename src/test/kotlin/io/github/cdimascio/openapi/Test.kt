@@ -1,4 +1,4 @@
-package io.github.cdimascio.swagger
+package io.github.cdimascio.openapi
 
 import org.junit.jupiter.api.Assertions.*
 import org.springframework.http.HttpHeaders
