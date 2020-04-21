@@ -56,7 +56,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <source.plugin.version>3.0.1</source.plugin.version>
         <javadoc.plugin.version>3.0.0</javadoc.plugin.version>
-        <spring.webflux.version>5.1.2.RELEASE</spring.webflux.version>
+        <spring.webflux.version>5.1.14.RELEASE</spring.webflux.version>
     </properties>
 
     <pluginRepositories>
