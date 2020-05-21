@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.web.reactive.function.BodyExtractors
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
+import org.springframework.web.reactive.function.server.awaitBodyOrNull
 import reactor.core.publisher.Mono
 
 operator fun Regex.contains(text: CharSequence): Boolean = this.matches(text)
@@ -78,6 +79,13 @@ class Validate<out T> internal constructor(
      */
     fun request(request: ServerRequest, handler: () -> Mono<ServerResponse>) = validator.validate(request) ?: handler()
 
+    /**
+     * Validates the [request]. If validation succeeds, the [handler] function is called to return a response.
+     * It's a suspended alternative to a [request] method.
+     */
+    suspend fun requestAndAwait(request: ServerRequest, handler: suspend () -> ServerResponse): ServerResponse =
+        validator.validateAndAwait(request) ?: handler()
+
     inner class Request(val request: ServerRequest, val objectMapperFactory: ObjectMapperFactory) {
         /**
          * Validates a request with body of type [bodyType] . If validation succeeds, the [handler]
@@ -85,6 +93,15 @@ class Validate<out T> internal constructor(
          */
         fun <T> withBody(bodyType: Class<T>, handler: (T) -> Mono<ServerResponse>): Mono<ServerResponse> {
             return BodyValidator(request, bodyType, objectMapperFactory).validate(handler)
+        }
+
+        /**
+         * Validates a request with body of type [bodyType] . If validation succeeds, the [handler]
+         * is called to return a response.
+         * It's a suspended alternative to a [withBody] method.
+         */
+        suspend fun <T> awaitBody(bodyType: Class<T>, handler: suspend (T) -> ServerResponse): ServerResponse {
+            return BodyValidator(request, bodyType, objectMapperFactory).validateAndAwait(handler)
         }
     }
 
@@ -100,6 +117,16 @@ class Validate<out T> internal constructor(
             val success = { json: String -> objectMapperFactory().readValue(json, bodyType) }
             val json = request.body(BodyExtractors.toMono(String::class.java)).switchIfEmpty(Mono.just(""))
             return json.flatMap { validator.validate(request, it) ?: handler(success(it)) }
+        }
+
+        /**
+         * Validates the body and calls [handler] if the validation succeeds.
+         * It's a suspended alternative to a [validate] method.
+         */
+        suspend fun validateAndAwait(handler: suspend (T) -> ServerResponse): ServerResponse {
+            val success = { json: String -> objectMapperFactory().readValue(json, bodyType) }
+            val json = request.awaitBodyOrNull() ?: ""
+            return json.let { validator.validateAndAwait(request, it) ?: handler(success(it)) }
         }
     }
 }

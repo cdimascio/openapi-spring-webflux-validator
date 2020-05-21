@@ -7,6 +7,7 @@ import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.status
+import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import reactor.core.publisher.Mono
 
 internal class Validator<out T>(swaggerJsonPath: String, private val errorHandler: (status: HttpStatus, List<String>) -> T) {
@@ -27,6 +28,20 @@ internal class Validator<out T>(swaggerJsonPath: String, private val errorHandle
             val error = errorHandler(status, messages)
             val e = BodyInserters.fromObject(error)
             status(status).body(e)
+        } else null
+    }
+
+    suspend fun validateAndAwait(request: ServerRequest, body: String? = null): ServerResponse? {
+        val builder = createSimpleRequestBuilder(request)
+        body?.let { builder.withBody(body) }
+        val simpleRequest = builder.build()
+
+        val report = swaggerValidator.validateRequest(simpleRequest)
+        return if (report.hasErrors()) {
+            val status = status(report.messages[0].key)
+            val messages = report.messages.map { it.message }
+            val error = errorHandler(status, messages)
+            status(status).bodyValueAndAwait(error as Any)
         } else null
     }
 

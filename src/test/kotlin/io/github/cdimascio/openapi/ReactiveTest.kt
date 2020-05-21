@@ -12,10 +12,9 @@ import reactor.core.publisher.Mono
 import java.net.URI
 import org.junit.jupiter.api.Test as test
 
-data class MyError(val code: Int, val name: String)
-data class User(val id: Int, val name: String)
 
-class Test {
+
+class ReactiveTest {
     private val validate = Validate.configure("api.yaml") { status, message ->
         MyError(status.value(), message[0])
     }
