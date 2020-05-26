@@ -73,9 +73,10 @@ val validate = Validate.configure(
 )
 ```
 
-### Validate a request (Kotlin)
+### Validate a request (Kotlin + Reactor)
 
-Using the `validate` instance created above, you can now validate a request:
+You can now validate a request in a coroutine style,
+using the `validate` instance created [above](#configure-kotlin):
 
 without a body
 
@@ -94,6 +95,32 @@ validate.request(req).withBody(User::class.java) { body ->
     // Now you can do stuff. 
     // For example, lets echo the request as the response 
     ok().body(Mono.just(body))
+}
+```
+
+### Validate a request (Kotlin + coroutines)
+
+Or you can validate a request in a coroutine style,
+using the `validate` instance created [above](#configure-kotlin):
+
+
+without a body
+
+```kotlin
+validate.requestAndAwait(req) {
+    // Do stuff e.g. return a list of names 
+    ok().bodyValueAndAwait(listOf("carmine", "alex", "eliana"))
+}
+```
+
+with body
+
+```kotlin
+validate.request(req).awaitBody(User::class.java) { body: User ->
+    // Note that body is deserialized as User!
+    // Now you can do stuff. 
+    // For example, lets echo the request as the response 
+    ok().bodyValueAndAwait(body)
 }
 ```
 
@@ -210,7 +237,7 @@ Let's say you have an endpoint `/users` that supports both `GET` and `POST` oper
 
 You can create those routes and validate them like so:
 
-**Create the routes:**
+**Create the routes in a reactive or coroutine style:**
 
 ```kotlin
 package myproject.controllers
@@ -218,17 +245,28 @@ package myproject.controllers
 import org.springframework.core.io.ClassPathResource
 import org.springframework.http.MediaType.*
 import org.springframework.web.reactive.function.server.ServerResponse.permanentRedirect
+import org.springframework.web.reactive.function.server.coRouter
+import org.springframework.web.reactive.function.server.plus
 import org.springframework.web.reactive.function.server.router
 import java.net.URI
 
 class Routes(private val userHandler: UserHandler) {
-	fun router() = router {
+    fun router() = router {
         "/api".nest {
             accept(APPLICATION_JSON).nest {
                 POST("/users", userHandler::create)
             }
             accept(TEXT_EVENT_STREAM).nest {
                 GET("/users", userHandler::findAll)
+            }
+        }
+    } + coRouter { 
+        "/coApi".nest {
+            accept(APPLICATION_JSON).nest {
+                POST("/users", userHandler::coCreate)
+            }
+            accept(TEXT_EVENT_STREAM).nest {
+                GET("/users", userHandler::coFindAll)
             }
         }
     }
@@ -252,23 +290,36 @@ import myproject.validate
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
-import org.springframework.web.reactive.function.server.body
+import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 class UserHandler {
-	
+
     fun findAll(req: ServerRequest): Mono<ServerResponse> {
         return validate.request(req) {
-            ok().body(Mono.just(listOf("carmine", "alex", "eliana")))
+            ok().bodyValue(listOf("carmine", "alex", "eliana"))
         }
     }
-	 
+
     fun create(req: ServerRequest): Mono<ServerResponse> {
         return validate.request(req).withBody(User::class.java) {
             // it is the request body deserialized as User
-            ok().body(Mono.just(it))
-       }
+            ok().bodyValue(it)
+        }
+    }
+
+    suspend fun coFindAll(req: ServerRequest): ServerResponse {
+        return validate.requestAndAwait(req) {
+            ok().bodyValueAndAwait(listOf("carmine", "alex", "eliana"))
+        }
+    }
+
+    suspend fun coCreate(req: ServerRequest): ServerResponse {
+        return validate.request(req).awaitBody(User::class.java) {
+            // it is the request body deserialized as User
+            ok().bodyValueAndAwait(it)
+        }
     }
 }
 ```
