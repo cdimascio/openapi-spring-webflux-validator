@@ -339,7 +339,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="http://www.twitter.com/carminedimascio"><img src="https://avatars1.githubusercontent.com/u/4706618?v=4" width="100px;" alt=""/><br /><sub><b>Carmine DiMascio</b></sub></a><br /><a href="https://github.com/cdimascio/express-openapi-validator/commits?author=cdimascio" title="Code">💻</a> <a href="https://github.com/cdimascio/express-openapi-validator/commits?author=cdimascio" title="Tests">⚠️</a> <a href="#infra-cdimascio" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
-    <td align="center"><a href="https://github.com/krzykrucz"><img src="https://avatars1.githubusercontent.com/u/18364177?v=4" width="100px;" alt=""/><br /><sub><b>Krzysiek Kruczyński</b></sub></a><br /><a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=krzykrucz" title="Tests">⚠️</a> <a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=krzykrucz" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/krzykrucz"><img src="https://avatars1.githubusercontent.com/u/18364177?v=4" width="100px;" alt=""/><br /><sub><b>Krzysiek Kruczyński</b></sub></a><br /><a href="https://github.com/cdimascio/express-openapi-validator/commits?author=krzykrucz" title="Code">💻</a><a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=krzykrucz" title="Tests">⚠️</a> <a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=krzykrucz" title="Documentation">📖</a></td>
   </tr>
 </table>
 
