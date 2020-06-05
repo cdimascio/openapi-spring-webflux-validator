@@ -1,0 +1,37 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "cdimascio",
+      "name": "Carmine DiMascio",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/4706618?v=4",
+      "profile": "https://github.com/cdimascio",
+      "contributions": [
+        "code",
+        "test",
+        "doc"
+      ]
+    },
+    {
+      "login": "krzykrucz",
+      "name": "Krzysiek Kruczyński",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/18364177?v=4",
+      "profile": "https://github.com/krzykrucz",
+      "contributions": [
+        "code",
+        "test",
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "openapi-spring-webflux-validator",
+  "projectOwner": "cdimascio",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
