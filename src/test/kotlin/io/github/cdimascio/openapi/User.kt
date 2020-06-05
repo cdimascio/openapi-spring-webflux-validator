@@ -1,0 +1,3 @@
+package io.github.cdimascio.openapi
+
+data class User(val id: Int, val name: String)
