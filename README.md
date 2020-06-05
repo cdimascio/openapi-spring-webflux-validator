@@ -1,4 +1,7 @@
 # openapi-spring-webflux-validator
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![](https://travis-ci.org/cdimascio/openapi-spring-webflux-validator.svg?branch=master)[![Maven Central](https://img.shields.io/maven-central/v/io.github.cdimascio/openapi-spring-webflux-validator.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.cdimascio%22%20AND%20a:%22openapi-spring-webflux-validator%22) [ ![Download](https://api.bintray.com/packages/cdimascio/maven/openapi-spring-webflux-validator/images/download.svg) ](https://bintray.com/cdimascio/maven/openapi-spring-webflux-validator/_latestVersion)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f78b72ca90104e42b111723a7720adf3)](https://www.codacy.com/app/cdimascio/openapi-spring-webflux-validator?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cdimascio/openapi-spring-webflux-validator&amp;utm_campaign=Badge_Grade)![](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
 
@@ -329,3 +332,22 @@ class UserHandler {
 [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
 <a href="https://www.buymeacoffee.com/m97tA5c" target="_blank"><img src="https://bmc-cdn.nyc3.digitaloceanspaces.com/BMC-button-images/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tr>
+    <td align="center"><a href="https://github.com/krzykrucz"><img src="https://avatars1.githubusercontent.com/u/18364177?v=4" width="100px;" alt=""/><br /><sub><b>Krzysiek Kruczyński</b></sub></a><br /><a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=krzykrucz" title="Tests">⚠️</a> <a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=krzykrucz" title="Documentation">📖</a></td>
+  </tr>
+</table>
+
+<!-- markdownlint-enable -->
+<!-- prettier-ignore-end -->
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
