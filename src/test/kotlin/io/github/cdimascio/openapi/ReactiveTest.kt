@@ -135,7 +135,7 @@ class ReactiveTest {
                 .build()
         validate.request(req) {
             ServerResponse.ok().body(
-                    BodyInserters.fromObject(
+                    BodyInserters.fromValue(
                             User(1, "carmine")))
         }
     }
