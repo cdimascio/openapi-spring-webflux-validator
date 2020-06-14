@@ -26,6 +26,15 @@
         "test",
         "doc"
       ]
+    },
+    {
+      "login": "chejerlakarthik",
+      "name": "Chejerla Karthik",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/12871079?v=4",
+      "profile": "https://github.com/chejerlakarthik",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
