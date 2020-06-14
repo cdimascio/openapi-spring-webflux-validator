@@ -88,7 +88,7 @@ class Validate<out T> internal constructor(
 
     inner class Request(val request: ServerRequest, val objectMapperFactory: ObjectMapperFactory) {
         /**
-         * Validates a request with body of type [bodyType] . If validation succeeds, the [handler]
+         * Validates a request with body of type [bodyType]. If validation succeeds, the [handler]
          * is called to return a response
          */
         fun <T> withBody(bodyType: Class<T>, handler: (T) -> Mono<ServerResponse>): Mono<ServerResponse> {
