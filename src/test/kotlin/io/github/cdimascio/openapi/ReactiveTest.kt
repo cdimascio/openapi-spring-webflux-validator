@@ -29,7 +29,7 @@ class ReactiveTest {
                     { "bad_key": 1, "name": "carmine" }
                 """.trimIndent()))
 
-        val res = validate.request(req).withBody(User::class.java) {
+        val res = validate.request(req).withBody<User> {
             fail("Validator failed to detect an inconsistency")
         }.onErrorResume {
             fail("Validator threw and unexpected error")
@@ -51,7 +51,7 @@ class ReactiveTest {
                     { "id": "carmine", "name": "carmine" }
                 """.trimIndent()))
 
-        val res = validate.request(req).withBody(User::class.java) {
+        val res = validate.request(req).withBody<User> {
             assertNotNull(it)
             ServerResponse.ok().build()
         }.block()
@@ -71,7 +71,7 @@ class ReactiveTest {
                 .uri(URI.create("/api/users"))
                 .body(Mono.empty<String>())
 
-        val res = validate.request(req).withBody(User::class.java) {
+        val res = validate.request(req).withBody<User> {
             assertNotNull(it)
             ServerResponse.ok().build()
         }.block()
@@ -93,7 +93,7 @@ class ReactiveTest {
                     { "id": "should_be_a_number", "name": "dimascio" }
                 """.trimIndent()))
 
-        val res = validate.request(req).withBody(User::class.java) {
+        val res = validate.request(req).withBody<User> {
             assertNotNull(it)
             ServerResponse.ok().build()
         }.block()
@@ -115,7 +115,7 @@ class ReactiveTest {
                     { "id": 1, "name": "dimascio" }
                 """.trimIndent()))
 
-        val res = validate.request(req).withBody(User::class.java) {
+        val res = validate.request(req).withBody<User> {
             assertNotNull(it)
             ServerResponse.ok().build()
         }.block()
@@ -149,7 +149,7 @@ class ReactiveTest {
                     { "id": 1, "name": "dimascio" }
                 """.trimIndent()))
 
-        val res = validate.request(req).withBody(User::class.java) {
+        val res = validate.request(req).withBody<User> {
             assertNotNull(it)
             ServerResponse.ok().build()
         }.block()
