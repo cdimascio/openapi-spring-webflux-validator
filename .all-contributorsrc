@@ -53,7 +53,17 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "zambrovski",
+      "name": "Simon Zambrivski",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/673128?s=460&v=4",
+      "profile": "https://github.com/zambrovski",
+      "contributions": [
+        "code"
+      ]
     }
+
   ],
   "contributorsPerLine": 7,
   "projectName": "openapi-spring-webflux-validator",
