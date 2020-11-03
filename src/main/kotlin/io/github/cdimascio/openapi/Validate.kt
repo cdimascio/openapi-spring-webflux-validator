@@ -31,16 +31,16 @@ typealias ObjectMapperFactory = () -> ObjectMapper
  * Validates requests against a Swagger 2 or OpenAPI 3 specification.
  */
 class Validate<out T> internal constructor(
-        swaggerJsonPath: String,
-        errorHandler: ErrorHandler<T>,
-        private val objectMapperFactory: ObjectMapperFactory) {
+    swaggerJsonPath: String,
+    errorHandler: ErrorHandler<T>,
+    private val objectMapperFactory: ObjectMapperFactory) {
 
     /**
      * The validate instance
      */
     companion object Instance {
         private val defaultErrorHandler: ErrorHandler<ValidationError> =
-                { status, messages -> ValidationError(status.value(), messages[0]) }
+            { status, messages -> ValidationError(status.value(), messages[0]) }
 
         private val defaultObjectMapperFactory: ObjectMapperFactory = { jacksonObjectMapper() }
 
@@ -96,6 +96,15 @@ class Validate<out T> internal constructor(
         }
 
         /**
+         * Reified inline version of the [Request.withBody] function.
+         * @param T type of the body.
+         * @param handler handler function.
+         * @return ServerResponse as a result of the call.
+         */
+        inline fun <reified T> withBody(noinline handler: (T) -> Mono<ServerResponse>): Mono<ServerResponse> =
+            this.withBody(T::class.java, handler)
+
+        /**
          * Validates a request with body of type [bodyType] . If validation succeeds, the [handler]
          * is called to return a response.
          * It's a suspended alternative to a [withBody] method.
@@ -104,8 +113,6 @@ class Validate<out T> internal constructor(
             return BodyValidator(request, bodyType, objectMapperFactory).validateAndAwait(handler)
         }
     }
-
-
     /**
      * Creates a new BodyValidator to validate a [request] of type [bodyType] using [objectMapperFactory].
      */
