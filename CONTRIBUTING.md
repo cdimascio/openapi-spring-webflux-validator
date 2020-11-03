@@ -8,7 +8,7 @@
 
 ```shell
 
-mvn build
+mvn compile
 
 ```
 
