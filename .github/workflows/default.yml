@@ -2,7 +2,9 @@ name: Development branches
 
 on:
   push:
-    - '*'
+    branches:
+      - '*'
+      - '**/*'
 
 jobs:
   build:
