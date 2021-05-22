@@ -119,6 +119,26 @@ class CoroutinesTest {
     }
 
     @test
+    fun `Validate a post request and provide access to string body`() {
+        val body = """{ "id": 1, "name": "dimascio" }"""
+        val req = MockServerRequest.builder()
+                .method(HttpMethod.POST)
+                .uri(URI.create("/api/users"))
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
+                .body(Mono.just(body))
+
+        val identity: (String) -> String = { it }
+        val res = runBlocking {
+            validate.request(req).awaitBody(String::class.java, readValue = identity) {
+                assertEquals(body, it)
+                ServerResponse.ok().buildAndAwait()
+            }
+        }
+
+        assertEquals(HttpStatus.OK, res.statusCode())
+    }
+
+    @test
     fun `Validate a get request`() {
         val req = MockServerRequest.builder()
             .method(HttpMethod.GET)

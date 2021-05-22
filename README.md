@@ -99,6 +99,15 @@ validate.request(req).withBody(User::class.java) { body ->
 }
 ```
 
+with body you want to process as string (e.g. for computing a request signature), or that you want to deserialize somehow specifically
+
+```kotlin
+val identity: (String) -> String = { it }
+validate.request(req).withBody(String::class.java, readValue = identity) { body ->
+    ok().body(Mono.just("content length is ${body.length}"))
+}
+```
+
 ### Validate a request (Kotlin + coroutines)
 
 Or you can validate a request in a coroutine style,
@@ -122,6 +131,15 @@ validate.request(req).awaitBody(User::class.java) { body: User ->
     // Now you can do stuff. 
     // For example, lets echo the request as the response 
     ok().bodyValueAndAwait(body)
+}
+```
+
+with body you want to process as string (e.g. for computing a request signature), or that you want to deserialize somehow specifically
+
+```kotlin
+val identity: (String) -> String = { it }
+validate.request(req).awaitBody(String::class.java, identity) { body: String ->
+    ok().bodyValueAndAwait("content length is ${body.length}")
 }
 ```
 
@@ -179,26 +197,36 @@ ArrayList<String> users = new ArrayList<String>() {{
     add("eliana");
 }};
 
-validate.request(null, () -> {
+validate.request(req, () ->
     // Do stuff e.g. return a list of user names
-    ServerResponse.ok().body(fromObject(users));
-});
+    ServerResponse.ok().bodyValue(users)
+);
 ```
 
 with body
 
 ```java
 validate
-    .request(null)
+    .request(req)
     .withBody(User.class, user -> 
         // Note that body is deserialized as User!
         // Now you can do stuff. 
         // For example, lets echo the request as the response
-        return ServerResponse.ok().body(fromObject(user))
+        ServerResponse.ok().bodyValue(user)
     );
 ```
 
-## Example Valiation Output
+with body you want to process as string (e.g. for computing a request signature)
+
+```java
+validate
+    .request(req)
+    .withBody(String.class, s -> s, body ->
+        ServerResponse.ok().bodyValue("content length is " + body.length())
+    );
+```
+
+## Example Validation Output
 
 Let's assume a `POST` request to create a user requires the following request body:
 

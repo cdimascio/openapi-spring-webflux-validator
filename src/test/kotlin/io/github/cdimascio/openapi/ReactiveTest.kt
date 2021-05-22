@@ -128,6 +128,28 @@ class ReactiveTest {
     }
 
     @test
+    fun `Validate a post request and provide access to string body`() {
+        val body = """{ "id": 1, "name": "dimascio" }"""
+        val req = MockServerRequest.builder()
+                .method(HttpMethod.POST)
+                .uri(URI.create("/api/users"))
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
+                .body(Mono.just(body))
+
+        val identity: (String) -> String = { it }
+        val res = validate.request(req).withBody(String::class.java, readValue = identity) {
+            assertEquals(body, it)
+            ServerResponse.ok().build()
+        }.block()
+
+        if (res != null) {
+            assertEquals(HttpStatus.OK, res.statusCode())
+        } else {
+            fail("Failed to receive a response")
+        }
+    }
+
+    @test
     fun `Validate a get request`() {
         val req = MockServerRequest.builder()
                 .method(HttpMethod.GET)
