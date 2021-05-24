@@ -73,5 +73,5 @@ where `5BE1414D5EAF81B48F2E77E1999F818C080AF9C1` is the public key
 
 
 ```shell
-mvn clean dokka:javadocJar deploy
+mvn clean dokka:javadocJar deploy -DperformRelease=true
 ```

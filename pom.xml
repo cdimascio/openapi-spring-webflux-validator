@@ -292,11 +292,11 @@
             <id>ossrh</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
-        <repository>
-            <id>github</id>
-            <name>Carmine M DiMascio</name>
-            <url>https://maven.pkg.github.com/cdimascio/openapi-spring-webflux-validator</url>
-        </repository>
+<!--        <repository>-->
+<!--            <id>github</id>-->
+<!--            <name>Carmine M DiMascio</name>-->
+<!--            <url>https://maven.pkg.github.com/cdimascio/openapi-spring-webflux-validator</url>-->
+<!--        </repository>-->
     </distributionManagement>
     <profiles>
         <profile>
