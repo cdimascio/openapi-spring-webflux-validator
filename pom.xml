@@ -28,7 +28,8 @@
 
     <scm>
         <connection>scm:github:https://github.com/cdimascio/openapi-spring-webflux-validator</connection>
-        <developerConnection>scm:github:https://github.com/cdimascio/openapi-spring-webflux-validator</developerConnection>
+        <developerConnection>scm:github:https://github.com/cdimascio/openapi-spring-webflux-validator
+        </developerConnection>
         <tag>master</tag>
         <url>https://github.com/cdimascio/openapi-spring-webflux-validator</url>
     </scm>
@@ -55,7 +56,7 @@
         <kotlin.version>1.4.10</kotlin.version>
         <kotlinx.coroutines.version>1.3.9</kotlinx.coroutines.version>
         <spring-boot.version>2.3.5.RELEASE</spring-boot.version>
-        <swagger-request-validator.version>2.11.0</swagger-request-validator.version>
+        <swagger-request-validator.version>2.18.1</swagger-request-validator.version>
     </properties>
 
     <pluginRepositories>
