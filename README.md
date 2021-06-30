@@ -1,7 +1,9 @@
 # openapi-spring-webflux-validator
-![](https://travis-ci.org/cdimascio/openapi-spring-webflux-validator.svg?branch=master)[![Maven Central](https://img.shields.io/maven-central/v/io.github.cdimascio/openapi-spring-webflux-validator.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.cdimascio%22%20AND%20a:%22openapi-spring-webflux-validator%22) [ ![Download](https://api.bintray.com/packages/cdimascio/maven/openapi-spring-webflux-validator/images/download.svg) ](https://bintray.com/cdimascio/maven/openapi-spring-webflux-validator/_latestVersion)[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f78b72ca90104e42b111723a7720adf3)](https://www.codacy.com/app/cdimascio/openapi-spring-webflux-validator?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cdimascio/openapi-spring-webflux-validator&amp;utm_campaign=Badge_Grade)<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)<!-- ALL-CONTRIBUTORS-BADGE:END --> ![](https://img.shields.io/badge/license-Apache%202.0-blue.svg)
+![](https://travis-ci.org/cdimascio/openapi-spring-webflux-validator.svg?branch=master)[![Maven Central](https://img.shields.io/maven-central/v/io.github.cdimascio/openapi-spring-webflux-validator.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.cdimascio%22%20AND%20a:%22openapi-spring-webflux-validator%22) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/f78b72ca90104e42b111723a7720adf3)](https://www.codacy.com/app/cdimascio/openapi-spring-webflux-validator?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=cdimascio/openapi-spring-webflux-validator&amp;utm_campaign=Badge_Grade) ![](https://img.shields.io/badge/license-Apache%202.0-blue.svg)<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END --> 
 
-A friendly kotlin library to validate API endpoints using an _OpenApi 3.0.x_ or _Swagger 2.0_ specification. Great with webflux functional. 
+A friendly kotlin library to validate API endpoints using an _OpenApi 3_ or _Swagger 2_ specification. Great with webflux functional. 
 It **works happily with any JVM language including Java >=8**. 
 <p align="center">
 	<img src="https://raw.githubusercontent.com/cdimascio/openapi-spring-webflux-validator/master/assets/openapi-spring5-webflux-validator.png" width="600"/>
@@ -23,14 +25,14 @@ Java 8 or greater
 <dependency>
     <groupId>io.github.cdimascio</groupId>
     <artifactId>openapi-spring-webflux-validator</artifactId>
-    <version>3.1.1</version>
+    <version>3.4.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-compile 'io.github.cdimascio:openapi-spring-webflux-validator:3.1.1'
+compile 'io.github.cdimascio:openapi-spring-webflux-validator:3.4.0'
 ```
 
 For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Copenapi-spring-webflux-validator%7C2.0.0%7Cjar)
@@ -97,6 +99,15 @@ validate.request(req).withBody(User::class.java) { body ->
 }
 ```
 
+with body you want to process as string (e.g. for computing a request signature), or that you want to deserialize somehow specifically
+
+```kotlin
+val identity: (String) -> String = { it }
+validate.request(req).withBody(String::class.java, readValue = identity) { body ->
+    ok().body(Mono.just("content length is ${body.length}"))
+}
+```
+
 ### Validate a request (Kotlin + coroutines)
 
 Or you can validate a request in a coroutine style,
@@ -120,6 +131,15 @@ validate.request(req).awaitBody(User::class.java) { body: User ->
     // Now you can do stuff. 
     // For example, lets echo the request as the response 
     ok().bodyValueAndAwait(body)
+}
+```
+
+with body you want to process as string (e.g. for computing a request signature), or that you want to deserialize somehow specifically
+
+```kotlin
+val identity: (String) -> String = { it }
+validate.request(req).awaitBody(String::class.java, identity) { body: String ->
+    ok().bodyValueAndAwait("content length is ${body.length}")
 }
 ```
 
@@ -177,26 +197,36 @@ ArrayList<String> users = new ArrayList<String>() {{
     add("eliana");
 }};
 
-validate.request(null, () -> {
+validate.request(req, () ->
     // Do stuff e.g. return a list of user names
-    ServerResponse.ok().body(fromObject(users));
-});
+    ServerResponse.ok().bodyValue(users)
+);
 ```
 
 with body
 
 ```java
 validate
-    .request(null)
+    .request(req)
     .withBody(User.class, user -> 
         // Note that body is deserialized as User!
         // Now you can do stuff. 
         // For example, lets echo the request as the response
-        return ServerResponse.ok().body(fromObject(user))
+        ServerResponse.ok().bodyValue(user)
     );
 ```
 
-## Example Valiation Output
+with body you want to process as string (e.g. for computing a request signature)
+
+```java
+validate
+    .request(req)
+    .withBody(String.class, s -> s, body ->
+        ServerResponse.ok().bodyValue("content length is " + body.length())
+    );
+```
+
+## Example Validation Output
 
 Let's assume a `POST` request to create a user requires the following request body:
 
@@ -338,8 +368,12 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- markdownlint-disable -->
 <table>
   <tr>
-    <td align="center"><a href="http://www.twitter.com/carminedimascio"><img src="https://avatars1.githubusercontent.com/u/4706618?v=4" width="100px;" alt=""/><br /><sub><b>Carmine DiMascio</b></sub></a><br /><a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=cdimascio" title="Code">💻</a> <a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=cdimascio" title="Tests">⚠️</a> <a href="#infra-cdimascio" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
-    <td align="center"><a href="https://github.com/krzykrucz"><img src="https://avatars1.githubusercontent.com/u/18364177?v=4" width="100px;" alt=""/><br /><sub><b>Krzysiek Kruczyński</b></sub></a><br /><a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=krzykrucz" title="Code">💻</a><a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=krzykrucz" title="Tests">⚠️</a> <a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=krzykrucz" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/cdimascio"><img src="https://avatars1.githubusercontent.com/u/4706618?v=4" width="100px;" alt=""/><br /><sub><b>Carmine DiMascio</b></sub></a><br /><a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=cdimascio" title="Code">💻</a> <a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=cdimascio" title="Tests">⚠️</a> <a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=cdimascio" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/krzykrucz"><img src="https://avatars1.githubusercontent.com/u/18364177?v=4" width="100px;" alt=""/><br /><sub><b>Krzysiek Kruczyński</b></sub></a><br /><a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=krzykrucz" title="Code">💻</a> <a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=krzykrucz" title="Tests">⚠️</a> <a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=krzykrucz" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/chejerlakarthik"><img src="https://avatars0.githubusercontent.com/u/12871079?v=4" width="100px;" alt=""/><br /><sub><b>Chejerla Karthik</b></sub></a><br /><a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=chejerlakarthik" title="Code">💻</a></td>
+    <td align="center"><a href="http://www.katielevy.com"><img src="https://avatars0.githubusercontent.com/u/8975181?v=4" width="100px;" alt=""/><br /><sub><b>Katie Levy</b></sub></a><br /><a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=katielevy1" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/reinterpretcat"><img src="https://avatars1.githubusercontent.com/u/1611077?v=4" width="100px;" alt=""/><br /><sub><b>Ilya Builuk</b></sub></a><br /><a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=reinterpretcat" title="Code">💻</a></td>
+    <td align="center"><a href="http://simon.zambrovski.org/"><img src="https://avatars0.githubusercontent.com/u/673128?v=4" width="100px;" alt=""/><br /><sub><b>Simon Zambrovski</b></sub></a><br /><a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=zambrovski" title="Code">💻</a> <a href="https://github.com/cdimascio/openapi-spring-webflux-validator/commits?author=zambrovski" title="Tests">⚠️</a></td>
   </tr>
 </table>
 

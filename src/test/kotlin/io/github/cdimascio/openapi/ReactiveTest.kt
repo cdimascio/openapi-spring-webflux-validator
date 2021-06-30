@@ -29,7 +29,7 @@ class ReactiveTest {
                     { "bad_key": 1, "name": "carmine" }
                 """.trimIndent()))
 
-        val res = validate.request(req).withBody(User::class.java) {
+        val res = validate.request(req).withBody<User> {
             fail("Validator failed to detect an inconsistency")
         }.onErrorResume {
             fail("Validator threw and unexpected error")
@@ -51,7 +51,7 @@ class ReactiveTest {
                     { "id": "carmine", "name": "carmine" }
                 """.trimIndent()))
 
-        val res = validate.request(req).withBody(User::class.java) {
+        val res = validate.request(req).withBody<User> {
             assertNotNull(it)
             ServerResponse.ok().build()
         }.block()
@@ -71,7 +71,7 @@ class ReactiveTest {
                 .uri(URI.create("/api/users"))
                 .body(Mono.empty<String>())
 
-        val res = validate.request(req).withBody(User::class.java) {
+        val res = validate.request(req).withBody<User> {
             assertNotNull(it)
             ServerResponse.ok().build()
         }.block()
@@ -93,7 +93,7 @@ class ReactiveTest {
                     { "id": "should_be_a_number", "name": "dimascio" }
                 """.trimIndent()))
 
-        val res = validate.request(req).withBody(User::class.java) {
+        val res = validate.request(req).withBody<User> {
             assertNotNull(it)
             ServerResponse.ok().build()
         }.block()
@@ -115,8 +115,30 @@ class ReactiveTest {
                     { "id": 1, "name": "dimascio" }
                 """.trimIndent()))
 
-        val res = validate.request(req).withBody(User::class.java) {
+        val res = validate.request(req).withBody<User> {
             assertNotNull(it)
+            ServerResponse.ok().build()
+        }.block()
+
+        if (res != null) {
+            assertEquals(HttpStatus.OK, res.statusCode())
+        } else {
+            fail("Failed to receive a response")
+        }
+    }
+
+    @test
+    fun `Validate a post request and provide access to string body`() {
+        val body = """{ "id": 1, "name": "dimascio" }"""
+        val req = MockServerRequest.builder()
+                .method(HttpMethod.POST)
+                .uri(URI.create("/api/users"))
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
+                .body(Mono.just(body))
+
+        val identity: (String) -> String = { it }
+        val res = validate.request(req).withBody(String::class.java, readValue = identity) {
+            assertEquals(body, it)
             ServerResponse.ok().build()
         }.block()
 
@@ -135,7 +157,7 @@ class ReactiveTest {
                 .build()
         validate.request(req) {
             ServerResponse.ok().body(
-                    BodyInserters.fromObject(
+                    BodyInserters.fromValue(
                             User(1, "carmine")))
         }
     }
@@ -149,7 +171,7 @@ class ReactiveTest {
                     { "id": 1, "name": "dimascio" }
                 """.trimIndent()))
 
-        val res = validate.request(req).withBody(User::class.java) {
+        val res = validate.request(req).withBody<User> {
             assertNotNull(it)
             ServerResponse.ok().build()
         }.block()
