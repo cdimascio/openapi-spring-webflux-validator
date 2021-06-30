@@ -26,7 +26,7 @@ internal class Validator<out T>(swaggerJsonPath: String, private val errorHandle
             val status = status(report.messages[0].key)
             val messages = report.messages.map { it.message }
             val error = errorHandler(status, messages)
-            val e = BodyInserters.fromObject(error)
+            val e = BodyInserters.fromValue(error)
             status(status).body(e)
         } else null
     }

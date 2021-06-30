@@ -31,16 +31,16 @@ typealias ObjectMapperFactory = () -> ObjectMapper
  * Validates requests against a Swagger 2 or OpenAPI 3 specification.
  */
 class Validate<out T> internal constructor(
-        swaggerJsonPath: String,
-        errorHandler: ErrorHandler<T>,
-        private val objectMapperFactory: ObjectMapperFactory) {
+    swaggerJsonPath: String,
+    errorHandler: ErrorHandler<T>,
+    private val objectMapperFactory: ObjectMapperFactory) {
 
     /**
      * The validate instance
      */
     companion object Instance {
         private val defaultErrorHandler: ErrorHandler<ValidationError> =
-                { status, messages -> ValidationError(status.value(), messages[0]) }
+            { status, messages -> ValidationError(status.value(), messages[0]) }
 
         private val defaultObjectMapperFactory: ObjectMapperFactory = { jacksonObjectMapper() }
 
@@ -87,25 +87,51 @@ class Validate<out T> internal constructor(
         validator.validateAndAwait(request) ?: handler()
 
     inner class Request(val request: ServerRequest, val objectMapperFactory: ObjectMapperFactory) {
+
         /**
-         * Validates a request with body of type [bodyType] . If validation succeeds, the [handler]
+         * Validates a request with body of type [bodyType]. If validation succeeds, the [handler]
          * is called to return a response
          */
         fun <T> withBody(bodyType: Class<T>, handler: (T) -> Mono<ServerResponse>): Mono<ServerResponse> {
-            return BodyValidator(request, bodyType, objectMapperFactory).validate(handler)
+            return withBody(bodyType, readJsonValue(bodyType), handler)
         }
+
+        /**
+         * Validates a request with body of type [bodyType]. If validation succeeds, the [readValue] function
+         * is used to transform the string body to [bodyType], and the [handler]
+         * is called to return a response
+         */
+        fun <T> withBody(bodyType: Class<T>,
+                         readValue: (String) -> T,
+                         handler: (T) -> Mono<ServerResponse>): Mono<ServerResponse> {
+            return BodyValidator(request, bodyType, objectMapperFactory).validate(handler, readValue)
+        }
+
+        /**
+         * Reified inline version of the [Request.withBody] function.
+         * @param T type of the body.
+         * @param handler handler function.
+         * @return ServerResponse as a result of the call.
+         */
+        inline fun <reified T> withBody(noinline handler: (T) -> Mono<ServerResponse>): Mono<ServerResponse> =
+            this.withBody(T::class.java, handler = handler)
 
         /**
          * Validates a request with body of type [bodyType] . If validation succeeds, the [handler]
          * is called to return a response.
          * It's a suspended alternative to a [withBody] method.
          */
-        suspend fun <T> awaitBody(bodyType: Class<T>, handler: suspend (T) -> ServerResponse): ServerResponse {
-            return BodyValidator(request, bodyType, objectMapperFactory).validateAndAwait(handler)
+        suspend fun <T> awaitBody(bodyType: Class<T>,
+                                  readValue: (String) -> T = readJsonValue(bodyType),
+                                  handler: suspend (T) -> ServerResponse): ServerResponse {
+            return BodyValidator(request, bodyType, objectMapperFactory).validateAndAwait(handler, readValue)
         }
+
+        private fun <T> readJsonValue(bodyType: Class<T>): (String) -> T = { json ->
+            objectMapperFactory().readValue(json, bodyType)
+        }
+
     }
-
-
     /**
      * Creates a new BodyValidator to validate a [request] of type [bodyType] using [objectMapperFactory].
      */
@@ -113,20 +139,19 @@ class Validate<out T> internal constructor(
         /**
          * Validates the body and calls [handler] if the validation succeeds
          */
-        fun validate(handler: (T) -> Mono<ServerResponse>): Mono<ServerResponse> {
-            val success = { json: String -> objectMapperFactory().readValue(json, bodyType) }
+        fun validate(handler: (T) -> Mono<ServerResponse>, readValue: (String) -> T): Mono<ServerResponse> {
             val json = request.body(BodyExtractors.toMono(String::class.java)).switchIfEmpty(Mono.just(""))
-            return json.flatMap { validator.validate(request, it) ?: handler(success(it)) }
+            return json.flatMap { validator.validate(request, it) ?: handler(readValue(it)) }
         }
 
         /**
          * Validates the body and calls [handler] if the validation succeeds.
          * It's a suspended alternative to a [validate] method.
          */
-        suspend fun validateAndAwait(handler: suspend (T) -> ServerResponse): ServerResponse {
-            val success = { json: String -> objectMapperFactory().readValue(json, bodyType) }
+        suspend fun validateAndAwait(handler: suspend (T) -> ServerResponse, readValue: (String) -> T): ServerResponse {
             val json = request.awaitBodyOrNull() ?: ""
-            return json.let { validator.validateAndAwait(request, it) ?: handler(success(it)) }
+            return json.let { validator.validateAndAwait(request, it) ?: handler(readValue(it)) }
         }
+
     }
 }
