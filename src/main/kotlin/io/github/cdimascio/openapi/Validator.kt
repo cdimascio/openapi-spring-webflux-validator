@@ -10,7 +10,7 @@ import org.springframework.web.reactive.function.server.ServerResponse.status
 import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import reactor.core.publisher.Mono
 
-internal class Validator<out T>(swaggerJsonPath: String, private val errorHandler: (status: HttpStatus, List<String>) -> T) {
+internal class Validator<out T>(swaggerJsonPath: String, private val errorHandler: ErrorHandler<T>) {
     private operator fun Regex.contains(text: CharSequence) = this.matches(text)
     private val swaggerValidator = OpenApiInteractionValidator
         .createFor(swaggerJsonPath)
@@ -25,7 +25,7 @@ internal class Validator<out T>(swaggerJsonPath: String, private val errorHandle
         return if (report.hasErrors()) {
             val status = status(report.messages[0].key)
             val messages = report.messages.map { it.message }
-            val error = errorHandler(status, messages)
+            val error = errorHandler(request, status, messages)
             val e = BodyInserters.fromValue(error)
             status(status).body(e)
         } else null
@@ -40,7 +40,7 @@ internal class Validator<out T>(swaggerJsonPath: String, private val errorHandle
         return if (report.hasErrors()) {
             val status = status(report.messages[0].key)
             val messages = report.messages.map { it.message }
-            val error = errorHandler(status, messages)
+            val error = errorHandler(request, status, messages)
             status(status).bodyValueAndAwait(error as Any)
         } else null
     }

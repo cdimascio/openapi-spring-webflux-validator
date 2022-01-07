@@ -15,8 +15,8 @@ import org.junit.jupiter.api.Test as test
 
 
 class ReactiveTest {
-    private val validate = Validate.configure("api.yaml") { status, message ->
-        MyError(status.value(), message[0])
+    private val validate = Validate.configure("api.yaml") { request, status, message ->
+        MyError(request, status.value(), message[0])
     }
 
     @test

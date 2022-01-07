@@ -15,12 +15,12 @@ operator fun Regex.contains(text: CharSequence): Boolean = this.matches(text)
  * Represents an error when validating a request against the
  * Swagger 2 or OpenApi 3 specification
  */
-data class ValidationError(val code: Int, val message: String)
+data class ValidationError(val request: ServerRequest, val code: Int, val message: String)
 
 /**
  * Handler for validation errors
  */
-typealias ErrorHandler<T> = (status: HttpStatus, List<String>) -> T
+typealias ErrorHandler<T> = (request: ServerRequest, status: HttpStatus, List<String>) -> T
 
 /**
  * Factory for ObjectMapper.
@@ -40,7 +40,7 @@ class Validate<out T> internal constructor(
      */
     companion object Instance {
         private val defaultErrorHandler: ErrorHandler<ValidationError> =
-            { status, messages -> ValidationError(status.value(), messages[0]) }
+            { request, status, messages -> ValidationError(request, status.value(), messages[0]) }
 
         private val defaultObjectMapperFactory: ObjectMapperFactory = { jacksonObjectMapper() }
 

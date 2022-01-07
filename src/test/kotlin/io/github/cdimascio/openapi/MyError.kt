@@ -1,3 +1,5 @@
 package io.github.cdimascio.openapi
 
-data class MyError(val code: Int, val name: String)
+import org.springframework.web.reactive.function.server.ServerRequest
+
+data class MyError(val request: ServerRequest, val code: Int, val name: String)
