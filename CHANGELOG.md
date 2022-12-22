@@ -1,3 +1,8 @@
+##  (2022-12-22)
+
+* Add request to ErrorHandler ([9f9179e](https://github.com/cdimascio/openapi-spring-webflux-validator/commit/9f9179e))
+* v4.1.0 ([e4c0cbf](https://github.com/cdimascio/openapi-spring-webflux-validator/commit/e4c0cbf))
+
 ##  (2020-11-03)
 
 * chore: add initialGH action scrip, fx #20i ([53bd542](https://github.com/cdimascio/openapi-spring-webflux-validator/commit/53bd542)), closes [#20](https://github.com/cdimascio/openapi-spring-webflux-validator/issues/20)
@@ -36,6 +41,13 @@
 * docs: update README.md [skip ci] ([7f8873f](https://github.com/cdimascio/openapi-spring-webflux-validator/commit/7f8873f))
 * docs: update README.md [skip ci] ([f46df3b](https://github.com/cdimascio/openapi-spring-webflux-validator/commit/f46df3b))
 * feature: add reified with body, fix #19, chore: delete idea files ([27bb65b](https://github.com/cdimascio/openapi-spring-webflux-validator/commit/27bb65b)), closes [#19](https://github.com/cdimascio/openapi-spring-webflux-validator/issues/19)
+
+
+
+##  (2022-12-22)
+
+* Add request to ErrorHandler ([9f9179e](https://github.com/cdimascio/openapi-spring-webflux-validator/commit/9f9179e))
+* v4.1.0 ([e4c0cbf](https://github.com/cdimascio/openapi-spring-webflux-validator/commit/e4c0cbf))
 
 
 
