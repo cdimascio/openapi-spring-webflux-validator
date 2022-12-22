@@ -49,15 +49,18 @@ Supports `JSON` and `YAML`
 
 ```kotlin
 import io.github.cdimascio.openapi.Validate
+
 val validate = Validate.configure("static/api.yaml")
 ```
 
 with custom error handler
 
 ```kotlin
-data class MyError(val id: String, val messages: List<String>)
-val validate = Validate.configure("static/api.json") { status, messages ->
-   Error(status.name, messages)
+import org.springframework.web.reactive.function.server.ServerRequest
+
+data class MyError(val request: ServerRequest, val code: String, val messages: List<String>)
+val validate = Validate.configure("static/api.json") { request, status, messages ->
+   MyError(request, status.name, messages)
 }
 ```
 
@@ -66,7 +69,7 @@ with custom ObjectMapper factory:
 ```kotlin
 val validate = Validate.configure(
    openApiSwaggerPath = "api.yaml",
-   errorHandler = { status, message -> ValidationError(status.value(), message[0]) },
+   errorHandler = { request, status, message -> ValidationError(request, status.value(), message[0]) },
    objectMapperFactory = { ObjectMapper()
        .registerKotlinModule()
        .registerModule(JavaTimeModule())
@@ -150,18 +153,26 @@ This one-time configuration requires you to provide the _location of the openapi
 
 ```java
 import io.github.cdimascio.openapi.Validate;
+
 Validate<ValidationError> validate = Validate.configure("static/api.json")
 ```
 
 with custom error handler
 
 ```java
+import org.springframework.web.reactive.function.server.ServerRequest;
+
 class MyError {
+    private ServerRequest request;
     private String id;
     private  String messages;
-    public MyError(String id, List<String> messages) {
+    public MyError(ServerRequest request, String id, List<String> messages) {
+        this.request = request;
         this.id = id;
         this.messages = messages;
+    }
+    public ServerRequest getRequest() {
+        return request;
     }
     public String getId() {
         return id;
@@ -179,8 +190,8 @@ class MyError {
 ```
 
 ```java
-Validate<ValidationError> validate = Validate.configure("static/api.json", (status, messages) ->
-    new MyError(status.getName(), messages)
+Validate<ValidationError> validate = Validate.configure("static/api.json", (request, status, messages) ->
+    new MyError(request, status.getName(), messages)
 );
 ```
 
@@ -306,6 +317,7 @@ class Routes(private val userHandler: UserHandler) {
 package myproject
 
 import io.github.cdimascio.openapi.Validate
+
 val validate = Validate.configure("static/api.yaml")
 ```
 
