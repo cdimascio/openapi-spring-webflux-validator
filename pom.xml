@@ -272,6 +272,8 @@
             <!--                    </execution>-->
             <!--                </executions>-->
             <!--            </plugin>-->
+
+            <!-- Comment out for github artifact upload -->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -323,10 +325,6 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
-<!--                                <configuration>-->
-<!--                                    <keyname>0x080AF9C1</keyname>-->
-<!--                                    <passphraseServerId>0x080AF9C1</passphraseServerId>-->
-<!--                                </configuration>-->
                             </execution>
                         </executions>
                     </plugin>
