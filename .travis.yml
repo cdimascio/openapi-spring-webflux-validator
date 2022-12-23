@@ -1,6 +1,5 @@
-dist: trusty
-language: java
 jdk:
   - openjdk17
+
 script: mvn clean test -Dgpg.skip=true
 
