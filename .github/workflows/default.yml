@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: ${{ matrix.jdk }}
-          distribution: adoptopenjdk
+          distribution: adopt
       - name: Cache .m2
         uses: actions/cache@v1
         with:
