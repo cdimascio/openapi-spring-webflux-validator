@@ -15,7 +15,9 @@ See this [complete Spring 5 Webflux example that uses openapi-spring-webflux-val
 
 ## Prequisites
 
-Java 8 or greater
+Java 17 or greater
+
+_For those using the older Spring Boot 2 and Webflux 5, use `openapi-spring-webflux-validator` version `3.5.0`. Java 8 or greater is required._ 
 
 ## Install
 
