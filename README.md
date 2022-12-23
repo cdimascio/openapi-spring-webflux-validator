@@ -11,13 +11,11 @@ It **works happily with any JVM language including Java >=8**.
 
 Supports specifications in _YAML_ and _JSON_
 
-See this [complete Spring Webflux example that uses openapi-spring-webflux-validator](https://github.com/cdimascio/kotlin-swagger-spring-functional-template).
-
 ## Prequisites
 
 Java 17 or greater
 
-_For those using the older Spring Boot 2 and Webflux 5, use `openapi-spring-webflux-validator` version `3.5.0`. Java 8 or greater is required._ 
+_For use with Spring Boot 2 and Webflux 5, use `openapi-spring-webflux-validator` version `3.5.0`. Java 8 or greater is required._ 
 
 ## Install
 
@@ -42,6 +40,8 @@ For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetai
 ## Usage (Kotlin)
 
 This section and the next describe usage with Kotlin and Java respectively.
+
+See this [complete Spring Webflux example that uses openapi-spring-webflux-validator](https://github.com/cdimascio/kotlin-swagger-spring-functional-template).
 
 ### Configure (Kotlin)
 
