@@ -6,12 +6,12 @@
 A friendly kotlin library to validate API endpoints using an _OpenApi 3_ or _Swagger 2_ specification. Great with webflux functional. 
 It **works happily with any JVM language including Java >=8**. 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/cdimascio/openapi-spring-webflux-validator/master/assets/openapi-spring5-webflux-validator.png" width="600"/>
+	<img width="300" src="https://raw.githubusercontent.com/cdimascio/openapi-spring-webflux-validator/master/assets/openapi-webflux-validator-logo2.png" width="600"/>
 </p>
 
 Supports specifications in _YAML_ and _JSON_
 
-See this [complete Spring 5 Webflux example that uses openapi-spring-webflux-validator](https://github.com/cdimascio/kotlin-swagger-spring-functional-template).
+See this [complete Spring Webflux example that uses openapi-spring-webflux-validator](https://github.com/cdimascio/kotlin-swagger-spring-functional-template).
 
 ## Prequisites
 
@@ -27,14 +27,14 @@ _For those using the older Spring Boot 2 and Webflux 5, use `openapi-spring-webf
 <dependency>
     <groupId>io.github.cdimascio</groupId>
     <artifactId>openapi-spring-webflux-validator</artifactId>
-    <version>4.1.0</version>
+    <version>4.2.0</version>
 </dependency>
 ```
 
 ### Gradle
 
 ```groovy
-compile 'io.github.cdimascio:openapi-spring-webflux-validator:4.1.0'
+compile 'io.github.cdimascio:openapi-spring-webflux-validator:4.2.0'
 ```
 
 For sbt, grape, ivy and more, see [here](https://search.maven.org/#artifactdetails%7Cio.github.cdimascio%7Copenapi-spring-webflux-validator%7C2.0.0%7Cjar)
