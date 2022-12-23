@@ -10,7 +10,7 @@
 
     <groupId>io.github.cdimascio</groupId>
     <artifactId>openapi-spring-webflux-validator</artifactId>
-    <version>4.1.0</version>
+    <version>4.2.0</version>
 
     <licenses>
         <license>
@@ -50,12 +50,13 @@
     </developers>
 
     <properties>
-        <kotlin.compiler.jvmTarget>1.8</kotlin.compiler.jvmTarget>
-        <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+        <kotlin.compiler.jvmTarget>17</kotlin.compiler.jvmTarget>
+<!--        <kotlin.compiler.incremental>true</kotlin.compiler.incremental>-->
 
         <kotlin.version>1.6.0</kotlin.version>
         <kotlinx.coroutines.version>1.5.2</kotlinx.coroutines.version>
-        <spring-boot.version>2.6.0</spring-boot.version>
+        <spring-boot.version>3.0.1</spring-boot.version>
+        <spring.version>6.0.3</spring.version>
         <swagger-request-validator.version>2.22.0</swagger-request-validator.version>
     </properties>
 
@@ -97,11 +98,13 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webflux</artifactId>
+            <version>${spring.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
             <scope>provided</scope>
         </dependency>
 
@@ -143,6 +146,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -274,34 +278,34 @@
             <!--            </plugin>-->
 
             <!-- Comment out for github artifact upload -->
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.sonatype.plugins</groupId>-->
+<!--                <artifactId>nexus-staging-maven-plugin</artifactId>-->
+<!--                <version>1.6.7</version>-->
+<!--                <extensions>true</extensions>-->
+<!--                <configuration>-->
+<!--                    <serverId>ossrh</serverId>-->
+<!--                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>-->
+<!--                    <autoReleaseAfterClose>true</autoReleaseAfterClose>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
+<!--        <snapshotRepository>-->
+<!--            <id>ossrh</id>-->
+<!--            <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--        </snapshotRepository>-->
 <!--        <repository>-->
-<!--            <id>github</id>-->
-<!--            <name>Carmine M DiMascio</name>-->
-<!--            <url>https://maven.pkg.github.com/cdimascio/openapi-spring-webflux-validator</url>-->
+<!--            <id>ossrh</id>-->
+<!--            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>-->
 <!--        </repository>-->
+        <repository>
+            <id>github</id>
+            <name>Carmine M DiMascio</name>
+            <url>https://maven.pkg.github.com/cdimascio/openapi-spring-webflux-validator</url>
+        </repository>
     </distributionManagement>
     <profiles>
         <profile>
