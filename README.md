@@ -148,7 +148,7 @@ validate.request(req).awaitBody(String::class.java, identity) { body: String ->
 }
 ```
 
-## Usage (Java 8 _or greater_)
+## Usage
 
 ### Configure (Java)
 This one-time configuration requires you to provide the _location of the openapi/swagger specification_ and an optional _custom error handler_.
