@@ -13,7 +13,7 @@ Supports specifications in _YAML_ and _JSON_
 
 ## Prequisites
 
-Java 17 or greater
+and Spring Webflux 6 + Java >=17
 
 _For use with Spring Boot 2 and Webflux 5, use `openapi-spring-webflux-validator` version `3.5.0`. Java 8 or greater is required._ 
 
