@@ -4,7 +4,7 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END --> 
 
 A friendly kotlin library to validate API endpoints using an _OpenApi 3_ or _Swagger 2_ specification. Great with webflux functional. 
-It **works happily with Spring Webflux 6's baseline of Jakarta JVM runtime >=17**. 
+It **works happily with Spring Webflux 7's baseline of Jakarta JVM runtime >=17**. 
 <p align="center">
 	<img width="300" src="https://raw.githubusercontent.com/cdimascio/openapi-spring-webflux-validator/master/assets/openapi-webflux-validator-logo2.png" width="600"/>
 </p>
@@ -13,9 +13,11 @@ Supports specifications in _YAML_ and _JSON_
 
 ## Prequisites
 
-and Spring Webflux 6 + Java >=17
+and Spring Webflux 7 + Java >=17
 
-_For use with Spring Boot 2 and Webflux 5, use `openapi-spring-webflux-validator` version `3.5.0`. Java 8 or greater is required._ 
+_For use with Spring Boot 3 and Webflux 6, use `openapi-spring-webflux-validator` version `4.2.0`. Java 17 or greater is required._
+
+_For use with Spring Boot 2 and Webflux 5, use `openapi-spring-webflux-validator` version `3.5.0`. Java 8 or greater is required._
 
 ## Install
 
@@ -66,16 +68,16 @@ val validate = Validate.configure("static/api.json") { request, status, messages
 }
 ```
 
-with custom ObjectMapper factory:
+with custom JsonMapper factory:
 
 ```kotlin
 val validate = Validate.configure(
    openApiSwaggerPath = "api.yaml",
    errorHandler = { request, status, message -> ValidationError(request, status.value(), message[0]) },
-   objectMapperFactory = { ObjectMapper()
-       .registerKotlinModule()
-       .registerModule(JavaTimeModule())
-       .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false) }
+   jsonMapperFactory = { JsonMapper.builder()
+       .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+       .build()
+       .registerKotlinModule() }
 )
 ```
 

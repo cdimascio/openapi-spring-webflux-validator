@@ -1,13 +1,14 @@
 package io.github.cdimascio.openapi
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.http.HttpStatus
 import org.springframework.web.reactive.function.BodyExtractors
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.awaitBodyOrNull
 import reactor.core.publisher.Mono
+import tools.jackson.databind.json.JsonMapper
+import tools.jackson.module.kotlin.jsonMapper
+import tools.jackson.module.kotlin.kotlinModule
 
 operator fun Regex.contains(text: CharSequence): Boolean = this.matches(text)
 
@@ -23,9 +24,9 @@ data class ValidationError(val request: ServerRequest, val code: Int, val messag
 typealias ErrorHandler<T> = (request: ServerRequest, status: HttpStatus, List<String>) -> T
 
 /**
- * Factory for ObjectMapper.
+ * Factory for JsonMapper.
  */
-typealias ObjectMapperFactory = () -> ObjectMapper
+typealias JsonMapperFactory = () -> JsonMapper
 
 /**
  * Validates requests against a Swagger 2 or OpenAPI 3 specification.
@@ -33,7 +34,7 @@ typealias ObjectMapperFactory = () -> ObjectMapper
 class Validate<out T> internal constructor(
     swaggerJsonPath: String,
     errorHandler: ErrorHandler<T>,
-    private val objectMapperFactory: ObjectMapperFactory) {
+    private val jsonMapperFactory: JsonMapperFactory) {
 
     /**
      * The validate instance
@@ -42,7 +43,11 @@ class Validate<out T> internal constructor(
         private val defaultErrorHandler: ErrorHandler<ValidationError> =
             { request, status, messages -> ValidationError(request, status.value(), messages[0]) }
 
-        private val defaultObjectMapperFactory: ObjectMapperFactory = { jacksonObjectMapper() }
+        private val defaultJsonMapperFactory: JsonMapperFactory = {
+            jsonMapper {
+                addModule(kotlinModule())
+            }
+        }
 
         /**
          * Configures the Validator with the Swagger 2 or OpenApi specification located at [openApiSwaggerPath]
@@ -55,16 +60,16 @@ class Validate<out T> internal constructor(
          * and a custom [errorHandler]. The specification file may be represented as YAML or JSON.
          */
         fun <T> configure(openApiSwaggerPath: String,
-                          errorHandler: ErrorHandler<T>) = configure(openApiSwaggerPath, defaultObjectMapperFactory, errorHandler)
+                          errorHandler: ErrorHandler<T>) = configure(openApiSwaggerPath, defaultJsonMapperFactory, errorHandler)
 
 
         /**
          * Configures the Validator with the Swagger 2 or OpenApi specification located at [openApiSwaggerPath], using
-         * custom [objectMapperFactory] and a custom [errorHandler]. The specification file may be represented as YAML or JSON.
+         * custom [jsonMapperFactory] and a custom [errorHandler]. The specification file may be represented as YAML or JSON.
          */
         fun <T> configure(openApiSwaggerPath: String,
-                          objectMapperFactory: ObjectMapperFactory,
-                          errorHandler: ErrorHandler<T>) = Validate(openApiSwaggerPath, errorHandler, objectMapperFactory)
+                          jsonMapperFactory: JsonMapperFactory,
+                          errorHandler: ErrorHandler<T>) = Validate(openApiSwaggerPath, errorHandler, jsonMapperFactory)
     }
 
     private val validator = Validator(swaggerJsonPath, errorHandler)
@@ -72,7 +77,7 @@ class Validate<out T> internal constructor(
     /**
      * The [request] to validate
      */
-    fun request(request: ServerRequest) = Request(request, objectMapperFactory)
+    fun request(request: ServerRequest) = Request(request, jsonMapperFactory)
 
     /**
      * Validates the [request]. If validation succeeds, the [handler] function is called to return a response
@@ -86,7 +91,7 @@ class Validate<out T> internal constructor(
     suspend fun requestAndAwait(request: ServerRequest, handler: suspend () -> ServerResponse): ServerResponse =
         validator.validateAndAwait(request) ?: handler()
 
-    inner class Request(val request: ServerRequest, val objectMapperFactory: ObjectMapperFactory) {
+    inner class Request(val request: ServerRequest, val jsonMapperFactory: JsonMapperFactory) {
 
         /**
          * Validates a request with body of type [bodyType]. If validation succeeds, the [handler]
@@ -104,7 +109,7 @@ class Validate<out T> internal constructor(
         fun <T> withBody(bodyType: Class<T>,
                          readValue: (String) -> T,
                          handler: (T) -> Mono<ServerResponse>): Mono<ServerResponse> {
-            return BodyValidator(request, bodyType, objectMapperFactory).validate(handler, readValue)
+            return BodyValidator(request, bodyType, jsonMapperFactory).validate(handler, readValue)
         }
 
         /**
@@ -124,18 +129,18 @@ class Validate<out T> internal constructor(
         suspend fun <T> awaitBody(bodyType: Class<T>,
                                   readValue: (String) -> T = readJsonValue(bodyType),
                                   handler: suspend (T) -> ServerResponse): ServerResponse {
-            return BodyValidator(request, bodyType, objectMapperFactory).validateAndAwait(handler, readValue)
+            return BodyValidator(request, bodyType, jsonMapperFactory).validateAndAwait(handler, readValue)
         }
 
         private fun <T> readJsonValue(bodyType: Class<T>): (String) -> T = { json ->
-            objectMapperFactory().readValue(json, bodyType)
+            jsonMapperFactory().readValue(json, bodyType)
         }
 
     }
     /**
-     * Creates a new BodyValidator to validate a [request] of type [bodyType] using [objectMapperFactory].
+     * Creates a new BodyValidator to validate a [request] of type [bodyType] using [jsonMapperFactory].
      */
-    inner class BodyValidator<T>(val request: ServerRequest, val bodyType: Class<T>, val objectMapperFactory: ObjectMapperFactory) {
+    inner class BodyValidator<T>(val request: ServerRequest, val bodyType: Class<T>, val jsonMapperFactory: JsonMapperFactory) {
         /**
          * Validates the body and calls [handler] if the validation succeeds
          */

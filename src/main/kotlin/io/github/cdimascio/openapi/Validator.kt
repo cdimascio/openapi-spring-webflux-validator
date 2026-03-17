@@ -26,7 +26,7 @@ internal class Validator<out T>(swaggerJsonPath: String, private val errorHandle
             val status = status(report.messages[0].key)
             val messages = report.messages.map { it.message }
             val error = errorHandler(request, status, messages)
-            val e = BodyInserters.fromValue(error)
+            val e = BodyInserters.fromValue(error as Any)
             status(status).body(e)
         } else null
     }
@@ -56,9 +56,9 @@ internal class Validator<out T>(swaggerJsonPath: String, private val errorHandle
     }
 
     private fun createSimpleRequestBuilder(request: ServerRequest): SimpleRequest.Builder {
-        val method = com.atlassian.oai.validator.model.Request.Method.valueOf(request.methodName())
+        val method = com.atlassian.oai.validator.model.Request.Method.valueOf(request.method().name())
         val requestBuilder = SimpleRequest.Builder(method, request.path())
-        val headerNames = request.headers().asHttpHeaders().keys.asIterable()
+        val headerNames = request.headers().asHttpHeaders().headerNames().asIterable()
 
         request.queryParams().entries.forEach { requestBuilder.withQueryParam(it.key, it.value) }
         headerNames.forEach { requestBuilder.withHeader(it, request.headers().header(it)) }
