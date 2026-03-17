@@ -55,6 +55,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <kotlin.compiler.jvmTarget>${java.version}</kotlin.compiler.jvmTarget>
 
+        <jackson.version>3.1.0</jackson.version>
         <kotlin.version>2.2.21</kotlin.version>
         <kotlinx.coroutines.version>1.10.2</kotlinx.coroutines.version>
         <spring-boot.version>4.0.3</spring-boot.version>
@@ -111,8 +112,9 @@
         </dependency>
 
         <dependency>
-            <groupId>com.fasterxml.jackson.module</groupId>
+            <groupId>tools.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
 
         <dependency>

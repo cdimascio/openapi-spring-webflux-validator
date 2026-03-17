@@ -68,16 +68,16 @@ val validate = Validate.configure("static/api.json") { request, status, messages
 }
 ```
 
-with custom ObjectMapper factory:
+with custom JsonMapper factory:
 
 ```kotlin
 val validate = Validate.configure(
    openApiSwaggerPath = "api.yaml",
    errorHandler = { request, status, message -> ValidationError(request, status.value(), message[0]) },
-   objectMapperFactory = { ObjectMapper()
-       .registerKotlinModule()
-       .registerModule(JavaTimeModule())
-       .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false) }
+   jsonMapperFactory = { JsonMapper.builder()
+       .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+       .build()
+       .registerKotlinModule() }
 )
 ```
 
